@@ -21,64 +21,66 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
+
 import numpy as np
+
+
 class getatomcharges:
-    
     def findnumatoms(self, datfilename):
-        #returns number of atoms in the simulation
+        # returns number of atoms in the simulation
         datfile = open(datfilename)
-        foundnumatoms=False
+        foundnumatoms = False
         datfile.readline()
-        while foundnumatoms==False:
+        while foundnumatoms is False:
             line = datfile.readline()
             line = line.split()
             if len(line) >= 2:
-                if line[1] == 'atoms':
-                    n=int(line[0])
+                if line[1] == "atoms":
+                    n = int(line[0])
                     foundnumatoms = True
         datfile.close()
         return n
-    
+
     def getmolcharges(self, datfilename, n):
-        #Returns arrays with the charge of all atoms and molecules in the system
+        # Returns arrays with the charge of all atoms and molecules in the system
         datfile = open(datfilename)
-        for j in range(0,4):
+        for j in range(0, 4):
             datfile.readline()
         atomcharges = np.zeros(n)
         mol = np.zeros(n)
-        foundatoms= False
+        foundatoms = False
         readingcharges = True
-        
-        while foundatoms == False:
+
+        while foundatoms is False:
             line = datfile.readline()
             line = line.split()
-            
+
             if len(line) > 0:
-                if line[0] == 'Atoms':
+                if line[0] == "Atoms":
                     foundatoms = True
                     datfile.readline()
-                
-        while readingcharges == True:
+
+        while readingcharges is True:
             line = datfile.readline()
             line = line.split()
             if len(line) == 10 or len(line) == 7:
-                atomcharges[int(line[0])-1] = float(line[3])
-                mol[int(line[0])-1] = int(line[1])
-                
+                atomcharges[int(line[0]) - 1] = float(line[3])
+                mol[int(line[0]) - 1] = int(line[1])
+
             else:
                 readingcharges = False
-                
+
         nummol = int(max(mol))
         molcharges = np.zeros(nummol)
-        for atom in range(0,n):
-            molcharges[int(mol[int(atom)])-1] += atomcharges[int(atom)]
-            
+        for atom in range(0, n):
+            molcharges[int(mol[int(atom)]) - 1] += atomcharges[int(atom)]
+
         datfile.close()
-        return (molcharges,atomcharges,n)
-        
+        return (molcharges, atomcharges, n)
+
     def molchargedict(self, molcharges, moltypel, moltype):
-        #creates a dictionary assigning charge to a molecule type
+        # creates a dictionary assigning charge to a molecule type
         molcharge = {}
-        for molecules in range(0,len(moltypel)):
+        for molecules in range(0, len(moltypel)):
             molcharge[moltypel[molecules]] = molcharges[moltype.index(molecules)]
         return molcharge
