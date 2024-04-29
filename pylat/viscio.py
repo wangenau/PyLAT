@@ -133,7 +133,7 @@ class LammpsLog:
 
             # else:
             # rawdata = np.genfromtxt(fname=filename,dtype=float,skip_header=header,skip_footer=1)
-            rawdata = np.array(raw_data, np.float)
+            rawdata = np.array(raw_data, dtype=float)
             for column, property in enumerate(data_format):
                 llog[property] = rawdata[:, column]
 
