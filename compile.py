@@ -10,7 +10,7 @@ Modified by Rohit Goswami (HaoZeke) <rog32@hi.is>
 from numpy import f2py
 import os, glob
 
-os.chdir('src')
+os.chdir('pylat')
 
 f = open('calcdistances.f90','r').read()
 f2py.compile(f,modulename='calcdistances',source_fn='calcdistances.f90',verbose=False)

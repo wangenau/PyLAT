@@ -23,24 +23,24 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import numpy as np
 from scipy.optimize import curve_fit
 from scipy.integrate import cumtrapz
-from src.getTimeData import gettimedata
-import src.calccomf as calccomf
+from pylat.getTimeData import gettimedata
+import pylat.calccomf as calccomf
 import copy
 import sys
 
 class calcCond:
     g = gettimedata()
     def calcConductivity(self, molcharges, trjfilename,logfilename, datfilename, T, output, moltype, moltypel,ver,firstpoint,tol,Jout):
-        
+
         """
-        This function calculates the ionic conductivity of the system using the 
+        This function calculates the ionic conductivity of the system using the
         Green-Kubo formalism
-        
+
         returns both the total conductivity as well as the contribution of each
         species
-        
+
         """
-        
+
         dt = self.g.getdt(logfilename)
         tsjump = self.g.getjump(trjfilename[0])
         (num_lines, n, num_timesteps, count, line) = self.getnum(trjfilename)
@@ -77,7 +77,7 @@ class calcCond:
         print(time[endcon])
         cond = np.zeros(len(J))
         for i in range(0,len(J)):
-            ave = self.fitcurve(time, integral[i], begcon, endcon)    
+            ave = self.fitcurve(time, integral[i], begcon, endcon)
             cond[i] = self.greenkubo(ave, T, V)
         GKintegral = self.greenkubo(integral,T,V)
         fit = []
@@ -112,7 +112,7 @@ class calcCond:
         V = Lx * Ly * Lz /10**30
         trjfile.close()
         return V
-    
+
     def getnum(self,trjfilename):
         # uses the trjectory file and returns the number of lines and the number of atoms
         trjfile = open(trjfilename[0])
@@ -130,7 +130,7 @@ class calcCond:
             line[j] += n+9
         count = 0
         return (num_lines, n, num_timesteps, count, line)
-        
+
     def createarrays(self,n, num_timesteps, moltype):
         #creates numpy arrays for data reading
         vx = np.zeros(n)
@@ -139,7 +139,7 @@ class calcCond:
         mol = np.zeros(n, dtype=int)
         atype = np.zeros(n)
         return (vx, vy, vz, mol, atype)
-        
+
     def getcolumns(self,trjfilename):
         # defines the columns each data type is in in the trjectory file
         trjfile = open(trjfilename)
@@ -157,7 +157,7 @@ class calcCond:
         typecol = inline.index('type')
         trjfile.close()
         return (vxcol, vycol, vzcol, idcol, molcol, typecol)
-        
+
     def readdata(self, trjfile, n, line, vx, vy, vz, vxcol, vycol, vzcol, idcol, i, mol, molcol, atype, typecol):
         # reads data from trjectory file into precreated arrays
         for j in range(0,9):
@@ -169,21 +169,21 @@ class calcCond:
             vy[int(inline[idcol])-1]= float(inline[vycol])
             vz[int(inline[idcol])-1]= float(inline[vzcol])
             mol[int(inline[idcol])-1] = int(inline[molcol])
-            atype[int(inline[idcol])-1] = int(inline[typecol])     
-            
+            atype[int(inline[idcol])-1] = int(inline[typecol])
+
         line[i] += n+9
         return (vx,vy,vz,line, mol, atype)
-        
+
     def calcj(self, dotlist, comvx, comvy, comvz, jx, jy, jz, count):
         #calculates the charge flux for a timestep
         #seperated into the contributions by different molecule types
-        for i in range(0,len(dotlist)):        
+        for i in range(0,len(dotlist)):
             jx[i][count] = np.dot(dotlist[i], comvx)
             jy[i][count] = np.dot(dotlist[i], comvy)
             jz[i][count] = np.dot(dotlist[i], comvz)
         count += 1
         return (jx, jy, jz, count)
-        
+
     def clacJ(self, jx, jy, jz, dt, tsjump, firstpoint,ver):
         #Calculates the charge flux correlation function for all timesteps
         #J[0] is the total charge correlation function
@@ -234,7 +234,7 @@ class calcCond:
         comvx = np.zeros(nummol)
         comvy = np.zeros(nummol)
         comvz = np.zeros(nummol)
-        
+
         molmass = np.zeros(nummol)
         for atom in range(0,n):
             molmass[mol[atom]-1] += atommass[atype[atom]]
@@ -242,7 +242,7 @@ class calcCond:
         jy = np.zeros((len(moltypel),num_timesteps))
         jz = np.zeros((len(moltypel),num_timesteps))
         return (comvx, comvy, comvz, nummol, molmass, jx, jy, jz)
-        
+
     def getmass(self, datfilename):
         # returns a dictionary of the mass of each atom type
         atommass = {}
@@ -252,16 +252,16 @@ class calcCond:
         datfile = open(datfilename)
         for i in range(0,4):
             datfile.readline()
-        
+
         while foundmass == False:
             line = datfile.readline()
             line = line.split()
-            
+
             if len(line) > 0:
                 if line[0] == 'Masses':
                     foundmass = True
                     datfile.readline()
-                
+
         while readingmasses == True:
             line = datfile.readline()
             line = line.split()
@@ -269,15 +269,15 @@ class calcCond:
                 if int(line[0]) == atomnum:
                     atommass[int(line[0])] = float(line[1])
                     atomnum += 1
-                    
+
                 else:
                     readingmasses = False
-                
+
             else:
                 readingmasses = False
         datfile.close()
         return atommass
-        
+
     def calcCOMv(self, comvx, comvy, comvz, vx, vy, vz, mol, atype, atommass, molmass, n, nummol):
         #calculates the center of mass velocity of all molecules for the timestep
         amass = np.zeros(n)
@@ -287,9 +287,9 @@ class calcCond:
         comvx = copy.deepcopy(comvxt)
         comvy = copy.deepcopy(comvyt)
         comvz = copy.deepcopy(comvzt)
-        
+
         return (comvx, comvy, comvz)
-        
+
     def findconvergance(self, J,tol):
         #Determines range of indeces for fitting the integral
         #The range is for when the sum of the square of five consecutive values is less than the tolerance
@@ -308,7 +308,7 @@ class calcCond:
                     converged = True
                 else:
                     i += 1
-        
+
         while converged:
             if i >= len(J):
                 endcon = i-1
@@ -321,7 +321,7 @@ class calcCond:
                 else:
                     i += 1
         return (begcon, endcon)
-        
+
     def getchargearrays(self, molcharges, moltype):
         #generates an array with the charge on each molecule
         dotlist = np.zeros((int(max(moltype)+1),int(len(molcharges))))
@@ -329,9 +329,9 @@ class calcCond:
             for k in range(0,len(moltype)):
                 if moltype[k] == i:
                     dotlist[i][k] = molcharges[k]
-                    
+
         return dotlist
-        
+
     def writeJ(self,J, tsjump, dt):
         #writes the values of the charge flux correlation function to J.dat
         #First column is time, second is the total correlation function
@@ -342,7 +342,7 @@ class calcCond:
             for k in range(1,len(J)):
                 outfile.write('\t{}'.format(J[k][i]))
             outfile.write('\n')
-    
+
     def correlate(self,a,b):
         #Use fast Fourier transforms to calculate the correlation function between a and b
         #Zeros are added to the end of the arrays to avoid wrapping the calculation
