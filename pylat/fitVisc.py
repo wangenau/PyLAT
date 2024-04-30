@@ -59,6 +59,11 @@ class fitVisc:
                 foundcutoff = True
             else:
                 cut += 1
+
+        if np.any(stddev < 1e-15):
+            stddev = None
+        else:
+            stddev = stddev[start:cut]
         # cut = len(visc)
         # popt2,pcov2 = optimize.curve_fit(self.doubexp, time[start:cut], visc[start:cut],maxfev=1000000,p0=popt2, sigma=stddev[start:cut])
         popt2, pcov2 = optimize.curve_fit(
@@ -67,7 +72,7 @@ class fitVisc:
             visc[start:cut],
             maxfev=1000000,
             p0=popt2,
-            sigma=stddev[start:cut],
+            sigma=stddev,
             bounds=(0, [np.inf, 1, np.inf, np.inf]),
         )
 
