@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import numpy as np
-from scipy.integrate import cumtrapz
+from scipy.integrate import cumulative_trapezoid
 from pylat.getTimeData import gettimedata
 import pylat.calccomf as calccomf
 import copy
@@ -125,8 +125,6 @@ class calcCond:
         time = []
         for i in range(0, len(integral[0])):
             time.append(i * tsjump * dt)
-        print(time[begcon])
-        print(time[endcon])
         cond = np.zeros(len(J))
         for i in range(0, len(J)):
             ave = self.fitcurve(time, integral[i], begcon, endcon)
@@ -285,7 +283,7 @@ class calcCond:
         # Integrates the charge flux correlation function to calculate conductivity
         integral = np.zeros((len(J), len(J[0])))
         for i in range(0, len(J)):
-            integral[i][1:] = cumtrapz(J[i], dx=dt)
+            integral[i][1:] = cumulative_trapezoid(J[i], dx=dt)
         return integral
 
     def fitcurve(self, time, integral, begin, end):

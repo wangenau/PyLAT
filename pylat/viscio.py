@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import re
 import numpy as np
 from multiprocessing import Pool
-from scipy.integrate import cumtrapz
+from scipy.integrate import cumulative_trapezoid
 
 
 def _list2float(seq):
@@ -126,7 +126,7 @@ class LammpsLog:
                     break
                 # if line == '\n':
                 # footer_blank_line += 1
-            # print int(md_step/log_save_freq)
+            # print(int(md_step/log_save_freq))
 
             # if total_lines >= header + md_step/log_save_freq:
             # rawdata = np.genfromtxt(fname=filename,dtype=float,skip_header=header,skip_footer=int(total_lines-header-md_step/log_save_freq-1 )-footer_blank_line)
@@ -172,7 +172,7 @@ class LammpsLog:
         temp = np.mean(self.llog["temp"][cutoff:])
 
         visco = (
-            (cumtrapz(pcorr, self.llog["step"][: len(pcorr)]))
+            (cumulative_trapezoid(pcorr, self.llog["step"][: len(pcorr)]))
             * self.llog["timestep"]
             * 10**-15
             * 1000
