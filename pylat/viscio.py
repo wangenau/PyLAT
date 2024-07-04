@@ -110,7 +110,6 @@ class LammpsLog:
                     break
 
                 header += 1
-            # time.sleep(5)
 
             # note: we are starting from the "break" above
             raw_data = []

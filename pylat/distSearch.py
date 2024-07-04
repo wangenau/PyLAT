@@ -61,10 +61,8 @@ class distSearch:
                 for k in range(0, n + 9):
                     trjfile.readline()
                 line[i] += n + 9
-                # print 'frame {}'.format(frame)
                 frame += 1
             while line[i] < num_lines[i] and numFound < numSamples:
-                # print 'frame {}'.format(frame)
                 (x, y, z, mol, atype, line, aid) = self.readdata(
                     trjfile,
                     n,

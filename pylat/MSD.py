@@ -23,7 +23,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 
-# import matplotlib.pyplot as plt
 import copy
 import sys
 

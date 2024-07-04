@@ -41,9 +41,6 @@ class fitVisc:
         return A * (1 - np.exp(-x / tau))
 
     def fitvisc(self, time, visc, stddev, plot, popt2):
-        # popt2=[1e-3,1.5e-1,1e2,1e3]
-        # popt2=[2e-3,5e-2,2e3,2e2]
-        # popt2=[1e-4,1e2]
         foundcutoff = False
         foundstart = False
         start = 1
@@ -63,8 +60,6 @@ class fitVisc:
             stddev = None
         else:
             stddev = stddev[start:cut]
-        # cut = len(visc)
-        # popt2,pcov2 = optimize.curve_fit(self.doubexp, time[start:cut], visc[start:cut],maxfev=1000000,p0=popt2, sigma=stddev[start:cut])
         popt2, pcov2 = optimize.curve_fit(
             self.doubexp,
             time[start:cut],
@@ -83,7 +78,6 @@ class fitVisc:
             fit1.append(self.doubexp1(t, *popt2))
             fit2.append(self.doubexp2(t, *popt2))
         Value = popt2[0] * popt2[1] * popt2[2] + popt2[0] * (1 - popt2[1]) * popt2[3]
-        # Value = popt2[0]
 
         if plot:
             timep = time / 1000000

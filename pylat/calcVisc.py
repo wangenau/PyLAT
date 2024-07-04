@@ -99,10 +99,6 @@ class calcVisc:
 
         output["Viscosity"]["Average Value"] = ave
         output["Viscosity"]["Standard Deviation"] = stddev
-        # output['Viscosity']['Average Integral']=average.tolist()
-        # output['Viscosity']['Standard Deviation']=stddev.tolist()
-        # output['Viscosity']['Time']=Time[:trjlen].tolist()
-
         return output
 
     def getAverage(self, Values, numsamples, trjlen, numtrj, viscosity, Time, fv):
@@ -110,18 +106,6 @@ class calcVisc:
         # Was originally implemented to perform a z-test on the values to determine outliers
         ave = np.average(Values)
         stddev = np.std(Values)
-        # maxval = np.max(Values)
-        # minval = np.min(Values)
-        # if ((maxval-ave)>(3*stddev)):
-        # Values.remove(maxval)
-        # print('{} removed from values'.format(maxval))
-        # Values.append(self.Bootstrap(numsamples,trjlen,numtrj,viscosity,Time,fv))
-        # (ave, stddev,Values) = self.getAverage(Values,numsamples,trjlen,numtrj,viscosity,Time,fv)
-        # elif ((ave-minval)>(5*stddev)):
-        # Values.remove(minval)
-        # print('{} removed from values'.format(minval))
-        # Values.append(self.Bootstrap(numsamples,trjlen,numtrj,viscosity,Time,fv))
-        # (ave, stddev,Values) = self.getAverage(Values,numsamples,trjlen,numtrj,viscosity,Time,fv)
         return (ave, stddev, Values)
 
     def Bootstrap(self, numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2):
