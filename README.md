@@ -2,11 +2,6 @@
 
 This is the github repository for the Python LAMMPS Analysis Tools.
 
-## Requirements
-numpy>=1.14.1
-
-scipy>=1.0.0
-
 The following information can be accessed by running the command "PyLAT -h"
 
 usage:
