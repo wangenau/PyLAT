@@ -1,3 +1,15 @@
 [build-system]
 requires = ["setuptools"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "pylat"
+version = "0.1.1"
+description = "Python LAMMPS Analysis Tools."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [{name = "MaginnGroup", email = "ed@nd.edu"}]
+dependencies = ["numba", "numpy", "scipy"]
+
+[tool.setuptools.packages.find]
+exclude = ["examples*"]
