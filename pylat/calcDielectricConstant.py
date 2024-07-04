@@ -129,15 +129,15 @@ class calcDielectricConstant:
         inline.remove("ATOMS")
         try:
             xcol = inline.index("x")
-        except:
+        except Exception:
             xcol = inline.index("xu")
         try:
             ycol = inline.index("y")
-        except:
+        except Exception:
             ycol = inline.index("yu")
         try:
             zcol = inline.index("z")
-        except:
+        except Exception:
             zcol = inline.index("zu")
         molcol = inline.index("mol")
         idcol = inline.index("id")

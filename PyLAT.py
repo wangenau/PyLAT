@@ -30,10 +30,9 @@ if __name__ == "__main__":
     import argparse as args
     import sys
     import json
+    import importlib.util
 
-    try:
-        import pylat.calccomf
-    except ImportError:
+    if importlib.util.find_spec("pylat.calccomf") is None:
         print(
             "Please use either 'sh compile.sh' or 'python compile.py' to compile the fortran modules"
         )

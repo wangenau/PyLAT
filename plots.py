@@ -1,4 +1,9 @@
 # -*- coding: utf-8 -*-
+from matplotlib import pyplot as plt
+import sys
+import json
+import numpy as np
+
 """
 Created on Wed Aug 16 16:06:40 2017
 
@@ -26,11 +31,6 @@ This script is used to parse/visualize the output of the PyLAT codes
 
 To use, call python plots.py {json file} and follow prompts
 """
-
-from matplotlib import pyplot as plt
-import sys
-import json
-import numpy as np
 
 
 def aver(x, y):
@@ -61,7 +61,7 @@ def dic(data):
     for i in range(0, len(keylist)):
         print("{}\t{}".format(i, keylist[i]))
     select = int(input("Select number of next level or y variable: "))
-    if type(data[keylist[select]]) == list:
+    if isinstance(data[keylist[select]], list):
         select2 = int(
             input("select x variable or if no x variable select -1 for plot vs count: ")
         )
@@ -81,17 +81,17 @@ def dic(data):
         if select4.lower() == "yes" or select4.lower() == "y":
             filename = input("Please give file name: ")
             writefile(x, y, filename)
-    elif type(data[keylist[select]]) == int:
+    elif isinstance(data[keylist[select]], int):
         print("You have selected an int. the value is {}".format(data[keylist[select]]))
-    elif type(data[keylist[select]]) == float:
+    elif isinstance(data[keylist[select]], float):
         print(
             "You have selected a float. the value is {}".format(data[keylist[select]])
         )
-    elif type(data[keylist[select]]) == dict:
+    elif isinstance(data[keylist[select]], dict):
         dic(data[keylist[select]])
     elif keylist[select] == "units":
         print("The units are {}.".format(data[keylist[select]]))
-    elif type(data[keylist[select]]) == str:
+    elif isinstance(data[keylist[select]], str):
         print(data[keylist[select]])
     # elif type(data[keylist[select]]) == unicode:
     #     print(data[keylist[select]])

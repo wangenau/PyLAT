@@ -352,7 +352,7 @@ class distSearch:
         ind = []
         for i in range(0, len(moltype)):
             ind.append(moltype[i] == moltypel.index(mol2))
-        indid = [l for l, x in enumerate(ind) if x]
+        indid = [i for i, x in enumerate(ind) if x]
         for i in range(0, len(moltype)):
             if moltype[i] == moltypel.index(mol1):
                 dx = comx[ind] - np.array([comx[i] for j in range(0, len(indid))])

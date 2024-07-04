@@ -257,15 +257,15 @@ class calcCond:
         # J[m] is the charge correlation function for the mth species
         counter = 0
         J = np.zeros((len(jx) + 1, len(jx[0])))
-        for l in range(0, len(jx)):
+        for i in range(0, len(jx)):
             for m in range(0, len(jx)):
-                Jtest = self.correlate(jx[l], jx[m])
+                Jtest = self.correlate(jx[i], jx[m])
                 J[0] += Jtest
                 J[m + 1] += Jtest
-                Jtest = self.correlate(jy[l], jy[m])
+                Jtest = self.correlate(jy[i], jy[m])
                 J[0] += Jtest
                 J[m + 1] += Jtest
-                Jtest = self.correlate(jz[l], jz[m])
+                Jtest = self.correlate(jz[i], jz[m])
                 J[0] += Jtest
                 J[m + 1] += Jtest
                 counter += 1

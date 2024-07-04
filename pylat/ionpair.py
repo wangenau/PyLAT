@@ -208,9 +208,9 @@ class ionpair:
                 yave = np.average(correlation[begin:end])
                 SStot = 0
                 SSres = 0
-                for l in range(begin, end):
-                    SStot += (correlation[l] - yave) ** 2
-                    SSres += (correlation[l] - fit[l]) ** 2
+                for i in range(begin, end):
+                    SStot += (correlation[i] - yave) ** 2
+                    SSres += (correlation[i] - fit[i]) ** 2
                 r2.append(1 - SSres / SStot)
                 IPL.append(0)
                 for i in range(0, int(len(popt) / 2)):
