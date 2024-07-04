@@ -36,10 +36,9 @@ class gettimedata:
                 sys.exit("could not find timestep size in log file")
             inline = logfile.readline()
             inline = inline.split()
-            if len(inline) > 0:
-                if inline[0] == "timestep":
-                    dt = float(inline[1])
-                    foundtimestep = True
+            if len(inline) > 0 and inline[0] == "timestep":
+                dt = float(inline[1])
+                foundtimestep = True
             count += 1
         logfile.close()
 

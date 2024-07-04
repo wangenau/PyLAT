@@ -64,7 +64,7 @@ class LammpsLog:
         else:
             self.avgs = {}
             # calculate the average
-            for key in self.llog.keys():
+            for key in self.llog:
                 self.avgs[str(key)] = np.mean(self.llog[key])
 
     @classmethod
@@ -141,7 +141,7 @@ class LammpsLog:
         """
         print the list of properties
         """
-        print(log.llog.keys())
+        print(self.llog.keys())
 
     # viscosity
     def viscosity(self, cutoff):

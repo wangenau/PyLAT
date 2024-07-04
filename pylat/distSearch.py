@@ -212,10 +212,9 @@ class distSearch:
             line = datfile.readline()
             line = line.split()
 
-            if len(line) > 0:
-                if line[0] == "Masses":
-                    foundmass = True
-                    datfile.readline()
+            if len(line) > 0 and line[0] == "Masses":
+                foundmass = True
+                datfile.readline()
 
         while readingmasses is True:
             line = datfile.readline()
@@ -365,24 +364,28 @@ class distSearch:
                 r = np.sqrt(r2)
 
                 for j in range(0, len(r)):
-                    if (np.abs(r[j] - dist) < deltaDist) and (numFound < numSamples):
-                        if ((mol1 == mol2) and (i < indid[j])) or (not mol1 == mol2):
-                            numFound += 1
-                            molid[i].sort()
-                            molid[indid[j]].sort()
-                            print("Sample {} Found".format(numFound))
-                            output["Distance_Search"]["Sample_{}".format(numFound)] = {}
-                            output["Distance_Search"]["Sample_{}".format(numFound)][
-                                "Distance"
-                            ] = float(r[j])
-                            output["Distance_Search"]["Sample_{}".format(numFound)][
-                                "Frame"
-                            ] = int(frame)
-                            output["Distance_Search"]["Sample_{}".format(numFound)][
-                                "Molecule_1_IDs"
-                            ] = molid[i]
-                            output["Distance_Search"]["Sample_{}".format(numFound)][
-                                "molecule_2_IDs"
-                            ] = molid[indid[j]]
+                    if (
+                        (np.abs(r[j] - dist) < deltaDist)
+                        and (numFound < numSamples)
+                        and ((mol1 == mol2) and (i < indid[j]))
+                        or (mol1 != mol2)
+                    ):
+                        numFound += 1
+                        molid[i].sort()
+                        molid[indid[j]].sort()
+                        print("Sample {} Found".format(numFound))
+                        output["Distance_Search"]["Sample_{}".format(numFound)] = {}
+                        output["Distance_Search"]["Sample_{}".format(numFound)][
+                            "Distance"
+                        ] = float(r[j])
+                        output["Distance_Search"]["Sample_{}".format(numFound)][
+                            "Frame"
+                        ] = int(frame)
+                        output["Distance_Search"]["Sample_{}".format(numFound)][
+                            "Molecule_1_IDs"
+                        ] = molid[i]
+                        output["Distance_Search"]["Sample_{}".format(numFound)][
+                            "molecule_2_IDs"
+                        ] = molid[indid[j]]
 
         return (numFound, output)

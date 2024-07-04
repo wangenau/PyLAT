@@ -54,10 +54,9 @@ class getatomcharges:
             line = datfile.readline()
             line = line.split()
 
-            if len(line) > 0:
-                if line[0] == "Atoms":
-                    foundatoms = True
-                    datfile.readline()
+            if len(line) > 0 and line[0] == "Atoms":
+                foundatoms = True
+                datfile.readline()
 
         while readingcharges is True:
             line = datfile.readline()

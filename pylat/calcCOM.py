@@ -177,10 +177,9 @@ class calcCOM:
             line = datfile.readline()
             line = line.split()
 
-            if len(line) > 0:
-                if line[0] == "Masses":
-                    foundmass = True
-                    datfile.readline()
+            if len(line) > 0 and line[0] == "Masses":
+                foundmass = True
+                datfile.readline()
 
         while readingmasses is True:
             line = datfile.readline()

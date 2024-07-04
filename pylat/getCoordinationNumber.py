@@ -23,7 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import copy
 
-import numpy
+import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
 
@@ -112,7 +112,7 @@ class getcoordinationnumber:
         integrallist = []
         for i in range(0, len(g)):
             integrallist.append(
-                g[i] * nummoltype[moltypel.index(mol)] / V * 4 * numpy.pi * r[i] ** 2
+                g[i] * nummoltype[moltypel.index(mol)] / V * 4 * np.pi * r[i] ** 2
             )
         integral = cumulative_trapezoid(integrallist, x=r)
         integral = integral.tolist()
