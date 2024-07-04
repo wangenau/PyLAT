@@ -21,10 +21,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
-import numpy as np
-
 import copy
 import sys
+
+import numpy as np
 
 
 class MSD:

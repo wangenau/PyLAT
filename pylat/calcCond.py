@@ -20,12 +20,14 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
-import numpy as np
-from scipy.integrate import cumulative_trapezoid
-from pylat.getTimeData import gettimedata
-import pylat.calccomf as calccomf
 import copy
 import sys
+
+import numpy as np
+from scipy.integrate import cumulative_trapezoid
+
+import pylat.calccomf as calccomf
+from pylat.getTimeData import gettimedata
 
 
 class calcCond:

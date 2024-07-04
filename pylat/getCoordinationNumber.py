@@ -21,9 +21,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
+import copy
+
 import numpy
 from scipy.integrate import cumulative_trapezoid
-import copy
 
 
 class getcoordinationnumber:

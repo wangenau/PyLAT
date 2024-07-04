@@ -20,9 +20,10 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
+import warnings
+
 import numpy as np
 from scipy import stats
-import warnings
 
 
 class calcdiffusivity:

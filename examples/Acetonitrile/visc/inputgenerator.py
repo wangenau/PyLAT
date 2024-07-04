@@ -8,7 +8,6 @@ Created on Mon Jul 13 14:45:35 2015
 import os
 import random
 
-
 samplefile = open("test_1/in.visc", "r").readlines()
 filelist = range(2, 51)
 for num in filelist:

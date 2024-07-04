@@ -21,13 +21,15 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
-import pylat.calcdistances as calcdistances
-import numpy as np
-import pylat.ipcorr as ipcorr
-from scipy.optimize import curve_fit
 import copy
 import sys
 import warnings
+
+import numpy as np
+from scipy.optimize import curve_fit
+
+import pylat.calcdistances as calcdistances
+import pylat.ipcorr as ipcorr
 
 
 class ionpair:

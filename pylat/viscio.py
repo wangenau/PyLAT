@@ -18,8 +18,9 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import re
-import numpy as np
 from multiprocessing import Pool
+
+import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
 
