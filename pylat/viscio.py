@@ -194,9 +194,3 @@ class LammpsLog:
     @classmethod
     def from_dict(cls, d):
         return LammpsLog(d["llog"], d["avgs"])
-
-
-if __name__ == "__main__":
-    filename = "visc.log"
-    log = LammpsLog.from_file(filename)
-    log.viscosity(100001)
