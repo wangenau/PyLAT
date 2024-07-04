@@ -13,3 +13,6 @@ dependencies = ["numba", "numpy", "scipy"]
 
 [tool.setuptools.packages.find]
 exclude = ["examples*"]
+
+[tool.setuptools]
+script-files = ["scripts/PyLAT", "scripts/PyLATplot"]

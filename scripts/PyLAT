@@ -30,15 +30,6 @@ if __name__ == "__main__":
     import argparse as args
     import sys
     import json
-    import importlib.util
-
-    if importlib.util.find_spec("pylat.calccomf") is None:
-        print(
-            "Please use either 'sh compile.sh' or 'python compile.py' to compile the fortran modules"
-        )
-        sys.exit(1)
-
-    # sys.path.append('~/Projects/Parser/publish/pylat')
 
     from pylat.MSD import MSD
     from pylat.calcDiffusivity import calcdiffusivity
@@ -80,16 +71,16 @@ if __name__ == "__main__":
 
     This yields a dictionary with all of the information that you can query.
 
-    plot.py is an interactive program written to parse and display the
+    PyLATplot is an interactive program written to parse and display the
     information in the json output files. Proper usage is
-    plots.py {output file}
+    PyLATplot {output file}
     """,
         epilog="""
 
     Example: For diffusivity and RDF of a system with 500 water and 500
         methanol in the directory methanol/inwater
 
-    python PyLAT.py -d -g --mol H2O --mol CH3OH --nummol 500
+    PyLAT -d -g --mol H2O --mol CH3OH --nummol 500
         --nummol 500 -p methanol/inwater/ -f methanolwater.json -v 2 mol.log
         restart.dat mol1.lammpstrj mol2.lammpstrj
     """,

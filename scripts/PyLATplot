@@ -29,7 +29,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 This script is used to parse/visualize the output of the PyLAT codes
 
-To use, call python plots.py {json file} and follow prompts
+To use, call python PyLATplot {json file} and follow prompts
 """
 
 
