@@ -22,14 +22,13 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import copy
+import math
 import sys
 import warnings
 
 import numpy as np
+from numba import njit
 from scipy.optimize import curve_fit
-
-import pylat.calcdistances as calcdistances
-import pylat.ipcorr as ipcorr
 
 
 class ionpair:
@@ -124,17 +123,17 @@ class ionpair:
 
     def calcdistance(self, comx, comy, comz, Lx, Ly, Lz):
         # Runs a fortran script calculating the distance between all molecules
-        r = calcdistances.calcdistances(len(comx), comx, comy, comz, Lx, Ly, Lz)
+        r = calcdistances(len(comx), comx, comy, comz, Lx, Ly, Lz)
         return r
 
     def findclosest(self, r, closest, begin, end, timestep):
         # Search molecules to find the closest molecules at each timestep
-        closest = calcdistances.findclosests(r, closest, begin, end, timestep)
+        closest = findclosests(r, closest, begin, end, timestep)
         return closest
 
     def correlation(self, closest, moltype, moltypel, ver, skipframes):
         # Runs a fortran script perfroming the correlation function
-        correlation = ipcorr.ipcorr(
+        correlation = ipcorr(
             closest,
             skipframes,
             len(closest),
@@ -212,3 +211,48 @@ class ionpair:
                 for i in range(0, int(len(popt) / 2)):
                     IPL[-1] += popt[i] * popt[i + int(len(popt) / 2)]
         return (IPL, r2)
+
+
+@njit
+def calcdistances(nummol, comx, comy, comz, Lx, Ly, Lz):
+    r = np.zeros((nummol, nummol), dtype=np.float32)
+    for i in range(nummol - 1):
+        for j in range(i + 1, nummol):
+            dx = comx[i] - comx[j]
+            dy = comy[i] - comy[j]
+            dz = comz[i] - comz[j]
+            dx -= Lx * round(dx / Lx)
+            dy -= Ly * round(dy / Ly)
+            dz -= Lz * round(dz / Lz)
+            distance = math.sqrt(dx**2 + dy**2 + dz**2)
+            r[i, j] = r[j, i] = distance
+    return r
+
+
+@njit
+def findclosests(r, closest, begin, end, timestep):
+    for i in range(len(r)):
+        for j in range(len(begin)):
+            distance = 10000
+            for k in range(begin[j], end[j]):
+                if r[i][k] < distance:
+                    distance = r[i][k]
+                    closest[timestep][i][j] = k
+    return closest
+
+
+@njit
+def ipcorr(closest, skip, L1, L2, L3, CL, moltype):
+    correlation = np.zeros((CL + 1, L3, L3), dtype=np.float32)
+    for i in range(L2):
+        for j in range(L3):
+            for k in range(skip, skip + CL):
+                for m in range(k, k + CL + 1):
+                    if closest[k, i, j] == closest[m, i, j]:
+                        correlation[m - k, moltype[i], j] += 1
+    for i in range(L3):
+        for j in range(L3):
+            norm = correlation[0, i, j]
+            for k in range(CL + 1):
+                correlation[k, i, j] /= norm
+    return correlation
