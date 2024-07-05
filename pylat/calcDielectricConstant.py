@@ -23,6 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import sys
 
 import numpy as np
+from numba import njit
 
 
 class calcDielectricConstant:
@@ -44,7 +45,7 @@ class calcDielectricConstant:
                 (x, y, z, mol, line) = self.readdata(
                     trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i
                 )
-                self.unwrap(x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2)
+                (x, y, z) = unwrap(x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2)
                 (Mx[count], My[count], Mz[count]) = self.calcdipolemoment(
                     x, y, z, atomcharges
                 )
@@ -153,31 +154,14 @@ class calcDielectricConstant:
         for a in range(0, n):
             inline = trjfile.readline()
             inline = inline.split()
-            aid = inline[idcol]
-            x[int(aid) - 1] = inline[xcol]
-            y[int(aid) - 1] = inline[ycol]
-            z[int(aid) - 1] = inline[zcol]
-            mol[int(aid) - 1] = inline[molcol]
+            idx = int(inline[idcol]) - 1
+            x[idx] = inline[xcol]
+            y[idx] = inline[ycol]
+            z[idx] = inline[zcol]
+            mol[idx] = inline[molcol]
 
         line[i] += n + 9
         return (x, y, z, mol, line)
-
-    def unwrap(self, x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2):
-        # Ensures all atoms in a molecule are in the same image
-        for atom in range(1, len(x)):
-            if mol[atom] == mol[atom - 1]:
-                if x[atom] - x[atom - 1] > Lx2:
-                    x[atom] -= Lx
-                elif x[atom] - x[atom - 1] < -1 * Lx2:
-                    x[atom] += Lx
-                if y[atom] - y[atom - 1] > Ly2:
-                    y[atom] -= Ly
-                elif y[atom] - y[atom - 1] < -1 * Ly2:
-                    y[atom] += Ly
-                if z[atom] - z[atom - 1] > Lz2:
-                    z[atom] -= Lz
-                elif z[atom] - z[atom - 1] < -1 * Lz2:
-                    z[atom] += Lz
 
     def calcdipolemoment(self, x, y, z, atomcharges):
         # calculates the dipole moment for a given timestep
@@ -226,3 +210,23 @@ class calcDielectricConstant:
         trjfile.close()
         V = Lx * Ly * Lz
         return (V, Lx, Ly, Lz)
+
+
+@njit
+def unwrap(x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2):
+    # Ensures all atoms in a molecule are in the same image
+    for atom in range(1, len(x)):
+        if mol[atom] == mol[atom - 1]:
+            if x[atom] - x[atom - 1] > Lx2:
+                x[atom] -= Lx
+            elif x[atom] - x[atom - 1] < -1 * Lx2:
+                x[atom] += Lx
+            if y[atom] - y[atom - 1] > Ly2:
+                y[atom] -= Ly
+            elif y[atom] - y[atom - 1] < -1 * Ly2:
+                y[atom] += Ly
+            if z[atom] - z[atom - 1] > Lz2:
+                z[atom] -= Lz
+            elif z[atom] - z[atom - 1] < -1 * Lz2:
+                z[atom] += Lz
+    return (x, y, z)
