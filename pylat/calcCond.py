@@ -233,11 +233,12 @@ class calcCond:
         for a in range(0, n):
             inline = trjfile.readline()
             inline = inline.split()
-            vx[int(inline[idcol]) - 1] = float(inline[vxcol])
-            vy[int(inline[idcol]) - 1] = float(inline[vycol])
-            vz[int(inline[idcol]) - 1] = float(inline[vzcol])
-            mol[int(inline[idcol]) - 1] = int(inline[molcol])
-            atype[int(inline[idcol]) - 1] = int(inline[typecol])
+            idx = int(inline[idcol]) - 1
+            vx[idx] = float(inline[vxcol])
+            vy[idx] = float(inline[vycol])
+            vz[idx] = float(inline[vzcol])
+            mol[idx] = int(inline[molcol])
+            atype[idx] = int(inline[typecol])
 
         line[i] += n + 9
         return (vx, vy, vz, line, mol, atype)
