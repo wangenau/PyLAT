@@ -25,6 +25,7 @@ import copy
 import sys
 
 import numpy as np
+from numba import njit
 
 
 class MSD:
@@ -64,7 +65,7 @@ class MSD:
         for i in range(skip, num_init + skip):
             for j in range(i, i + len_MSD):
                 r2 = self.calcr2(comx, comy, comz, i, j)
-                MSD = self.MSDadd(r2, MSD, molcheck, i, j)
+                MSD = MSDadd(r2, MSD, molcheck, i, j)
             if ver:
                 sys.stdout.write(
                     "\rMSD calculation {:.2f}% complete".format(
@@ -140,13 +141,6 @@ class MSD:
 
         return r2
 
-    def MSDadd(self, r2, MSD, molcheck, i, j):
-        # Uses dot product to calculate average MSD for a molecule type
-        for k in range(0, len(molcheck)):
-            sr2 = np.dot(r2, molcheck[k])
-            MSD[k][j - i] += sr2
-        return MSD
-
     def MSDnorm(self, MSD, MSDt, nummol):
         # Normalize the MSD by number of molecules and number of initial timesteps
         for i in range(0, len(nummol)):
@@ -168,3 +162,12 @@ class MSD:
             output["MSD"][moltypel[i]] = copy.deepcopy(MSD[i].tolist())
 
         output["MSD"]["time"] = copy.deepcopy(Time.tolist())
+
+
+@njit
+def MSDadd(r2, MSD, molcheck, i, j):
+    # Uses dot product to calculate average MSD for a molecule type
+    for k in range(0, len(molcheck)):
+        sr2 = np.dot(r2, molcheck[k])
+        MSD[k][j - i] += sr2
+    return MSD
