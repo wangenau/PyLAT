@@ -21,7 +21,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import sys
-from random import randint
+import random
 
 import numpy as np
 
@@ -81,6 +81,7 @@ class calcVisc:
         # Begin Bootstrapping for error estimate
         Values = []
         fv = fitVisc()
+        # random.seed(123456789)
         for i in range(0, numboot):
             Values.append(
                 self.Bootstrap(
@@ -113,7 +114,7 @@ class calcVisc:
         # Perform calculate the viscosity of one bootstrapping sample
         Bootlist = np.zeros((numsamples, trjlen))
         for j in range(0, numsamples):
-            rint = randint(0, numtrj - 1)
+            rint = random.randint(0, numtrj - 1)
             for k in range(0, trjlen):
                 Bootlist[j][k] = viscosity[rint][k]
         average = np.zeros(trjlen)
