@@ -227,7 +227,7 @@ def exponential6(x, A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6):
 
 @njit
 def calcdistances(nummol, comx, comy, comz, Lx, Ly, Lz):
-    r = np.zeros((nummol, nummol), dtype=np.float32)
+    r = np.zeros((nummol, nummol))
     for i in range(nummol - 1):
         for j in range(i + 1, nummol):
             dx = comx[i] - comx[j]
@@ -255,7 +255,7 @@ def findclosests(r, closest, begin, end, timestep):
 
 @njit
 def ipcorr(closest, skip, L1, L2, L3, CL, moltype):
-    correlation = np.zeros((CL + 1, L3, L3), dtype=np.float32)
+    correlation = np.zeros((CL + 1, L3, L3))
     for i in range(L2):
         for j in range(L3):
             for k in range(skip, skip + CL):
