@@ -22,24 +22,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import numpy as np
+from numba import njit
 from scipy import optimize
 
 
 class fitVisc:
-    def doubexp(self, x, A, alpha, tau1, tau2):
-        return A * alpha * tau1 * (1 - np.exp(-x / tau1)) + A * (1 - alpha) * tau2 * (
-            1 - np.exp(-x / tau2)
-        )
-
-    def doubexp1(self, x, A, alpha, tau1, tau2):
-        return A * alpha * tau1 * (1 - np.exp(-x / tau1))
-
-    def doubexp2(self, x, A, alpha, tau1, tau2):
-        return A * (1 - alpha) * tau2 * (1 - np.exp(-x / tau2))
-
-    def singleexp(self, x, A, tau):
-        return A * (1 - np.exp(-x / tau))
-
     def fitvisc(self, time, visc, stddev, plot, popt2):
         foundcutoff = False
         foundstart = False
@@ -61,7 +48,7 @@ class fitVisc:
         else:
             stddev = stddev[start:cut]
         popt2, pcov2 = optimize.curve_fit(
-            self.doubexp,
+            doubexp,
             time[start:cut],
             visc[start:cut],
             maxfev=1000000,
@@ -74,9 +61,9 @@ class fitVisc:
         fit1 = []
         fit2 = []
         for t in time:
-            fit.append(self.doubexp(t, *popt2))
-            fit1.append(self.doubexp1(t, *popt2))
-            fit2.append(self.doubexp2(t, *popt2))
+            fit.append(doubexp(t, *popt2))
+            fit1.append(doubexp1(t, *popt2))
+            fit2.append(doubexp2(t, *popt2))
         Value = popt2[0] * popt2[1] * popt2[2] + popt2[0] * (1 - popt2[1]) * popt2[3]
 
         if plot:
@@ -104,3 +91,25 @@ class fitVisc:
             plt.show()
 
         return Value
+
+
+@njit
+def doubexp(x, A, alpha, tau1, tau2):
+    return A * alpha * tau1 * (1 - np.exp(-x / tau1)) + A * (1 - alpha) * tau2 * (
+        1 - np.exp(-x / tau2)
+    )
+
+
+@njit
+def doubexp1(x, A, alpha, tau1, tau2):
+    return A * alpha * tau1 * (1 - np.exp(-x / tau1))
+
+
+@njit
+def doubexp2(x, A, alpha, tau1, tau2):
+    return A * (1 - alpha) * tau2 * (1 - np.exp(-x / tau2))
+
+
+@njit
+def singleexp(x, A, tau):
+    return A * (1 - np.exp(-x / tau))
