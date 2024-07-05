@@ -18,3 +18,15 @@ def calcdistances(nummol, comx, comy, comz, Lx, Ly, Lz):
             distance = math.sqrt(dx**2 + dy**2 + dz**2)
             r[i, j] = r[j, i] = distance
     return r
+
+
+@njit
+def findclosests(r, closest, begin, end, timestep):
+    for i in range(len(r)):
+        for j in range(len(begin)):
+            distance = 10000
+            for k in range(begin[j], end[j]):
+                if r[i][k] < distance:
+                    distance = r[i][k]
+                    closest[timestep][i][j] = k
+    return closest

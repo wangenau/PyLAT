@@ -66,7 +66,7 @@ class ionpair:
         (closest, begin, end, C) = self.init(len(comx[0]), moltypel, len(comx), moltype)
         for step in range(0, len(comx)):
             r = self.calcdistance(comx[step], comy[step], comz[step], Lx, Ly, Lz)
-            self.findclosest(r, closest, begin, end, step)
+            closest = self.findclosest(r, closest, begin, end, step)
             if ver:
                 sys.stdout.write(
                     "\rIPL distance calculation {:.2f}% complete".format(
@@ -129,13 +129,8 @@ class ionpair:
 
     def findclosest(self, r, closest, begin, end, timestep):
         # Search molecules to find the closest molecules at each timestep
-        for i in range(0, len(r)):
-            for j in range(0, len(begin)):
-                distance = 10000
-                for k in range(begin[j], end[j]):
-                    if r[i][k] < distance:
-                        distance = r[i][k]
-                        closest[timestep][i][j] = k
+        closest = calcdistances.findclosests(r, closest, begin, end, timestep)
+        return closest
 
     def correlation(self, closest, moltype, moltypel, ver, skipframes):
         # Runs a fortran script perfroming the correlation function
@@ -145,7 +140,7 @@ class ionpair:
             len(closest),
             len(closest[0]),
             len(closest[0][0]),
-            (len(closest) - skipframes) / 2,
+            int((len(closest) - skipframes) / 2),
             moltype,
         )
         return correlation
