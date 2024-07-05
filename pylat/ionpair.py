@@ -144,50 +144,14 @@ class ionpair:
         )
         return correlation
 
-    def exponential1(self, x, A1, B1):
-        return A1 * np.exp(-x / B1)
-
-    def exponential2(self, x, A1, A2, B1, B2):
-        return A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2)
-
-    def exponential3(self, x, A1, A2, A3, B1, B2, B3):
-        return A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2) + A3 * np.exp(-x / B3)
-
-    def exponential4(self, x, A1, A2, A3, A4, B1, B2, B3, B4):
-        return (
-            A1 * np.exp(-x / B1)
-            + A2 * np.exp(-x / B2)
-            + A3 * np.exp(-x / B3)
-            + A4 * np.exp(-x / B4)
-        )
-
-    def exponential5(self, x, A1, A2, A3, A4, A5, B1, B2, B3, B4, B5):
-        return (
-            A1 * np.exp(-x / B1)
-            + A2 * np.exp(-x / B2)
-            + A3 * np.exp(-x / B3)
-            + A4 * np.exp(-x / B4)
-            + A5 * np.exp(-x / B5)
-        )
-
-    def exponential6(self, x, A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6):
-        return (
-            A1 * np.exp(-x / B1)
-            + A2 * np.exp(-x / B2)
-            + A3 * np.exp(-x / B3)
-            + A4 * np.exp(-x / B4)
-            + A5 * np.exp(-x / B5)
-            + A6 * np.exp(-x / B6)
-        )
-
     def curvefit(self, correlation, time, begin, end):
         # Fit the exponential functions to the correlation function to estimate the ion pair lifetime
         funlist = [
-            self.exponential1,
-            self.exponential2,
-            self.exponential3,
-            self.exponential4,
-            self.exponential5,
+            exponential1,
+            exponential2,
+            exponential3,
+            exponential4,
+            exponential5,
         ]
         IPL = []
         r2 = []
@@ -211,6 +175,54 @@ class ionpair:
                 for i in range(0, int(len(popt) / 2)):
                     IPL[-1] += popt[i] * popt[i + int(len(popt) / 2)]
         return (IPL, r2)
+
+
+@njit
+def exponential1(x, A1, B1):
+    return A1 * np.exp(-x / B1)
+
+
+@njit
+def exponential2(x, A1, A2, B1, B2):
+    return A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2)
+
+
+@njit
+def exponential3(x, A1, A2, A3, B1, B2, B3):
+    return A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2) + A3 * np.exp(-x / B3)
+
+
+@njit
+def exponential4(x, A1, A2, A3, A4, B1, B2, B3, B4):
+    return (
+        A1 * np.exp(-x / B1)
+        + A2 * np.exp(-x / B2)
+        + A3 * np.exp(-x / B3)
+        + A4 * np.exp(-x / B4)
+    )
+
+
+@njit
+def exponential5(x, A1, A2, A3, A4, A5, B1, B2, B3, B4, B5):
+    return (
+        A1 * np.exp(-x / B1)
+        + A2 * np.exp(-x / B2)
+        + A3 * np.exp(-x / B3)
+        + A4 * np.exp(-x / B4)
+        + A5 * np.exp(-x / B5)
+    )
+
+
+@njit
+def exponential6(x, A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6):
+    return (
+        A1 * np.exp(-x / B1)
+        + A2 * np.exp(-x / B2)
+        + A3 * np.exp(-x / B3)
+        + A4 * np.exp(-x / B4)
+        + A5 * np.exp(-x / B5)
+        + A6 * np.exp(-x / B6)
+    )
 
 
 @njit
