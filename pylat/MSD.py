@@ -55,6 +55,9 @@ class MSD:
         """
 
         (comx, comy, comz) = self.unwrap(comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2)
+        comx = np.asarray(comx)
+        comy = np.asarray(comy)
+        comz = np.asarray(comz)
         if ver > 0:
             print("unwrap complete")
         num_timesteps = len(comx)
@@ -64,7 +67,7 @@ class MSD:
         (molcheck, nummol) = self.setmolarray(moltype, moltypel)
         for i in range(skip, num_init + skip):
             for j in range(i, i + len_MSD):
-                r2 = self.calcr2(comx, comy, comz, i, j)
+                r2 = calcr2(comx, comy, comz, i, j)
                 MSD = MSDadd(r2, MSD, molcheck, i, j)
             if ver:
                 sys.stdout.write(
@@ -131,16 +134,6 @@ class MSD:
             nummol[i] = np.sum(molcheck[i])
         return (molcheck, nummol)
 
-    def calcr2(self, comx, comy, comz, i, j):
-        # Calculates distance molecule has traveled between steps i and j
-        r2 = (
-            (comx[j] - comx[i]) ** 2
-            + (comy[j] - comy[i]) ** 2
-            + (comz[j] - comz[i]) ** 2
-        )
-
-        return r2
-
     def MSDnorm(self, MSD, MSDt, nummol):
         # Normalize the MSD by number of molecules and number of initial timesteps
         for i in range(0, len(nummol)):
@@ -162,6 +155,13 @@ class MSD:
             output["MSD"][moltypel[i]] = copy.deepcopy(MSD[i].tolist())
 
         output["MSD"]["time"] = copy.deepcopy(Time.tolist())
+
+
+@njit
+def calcr2(comx, comy, comz, i, j):
+    # Calculates distance molecule has traveled between steps i and j
+    r2 = (comx[j] - comx[i]) ** 2 + (comy[j] - comy[i]) ** 2 + (comz[j] - comz[i]) ** 2
+    return r2
 
 
 @njit

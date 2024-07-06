@@ -20,8 +20,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 """
 
-import sys
 import random
+import sys
 
 import numpy as np
 
