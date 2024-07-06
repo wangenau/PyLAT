@@ -27,7 +27,7 @@ import sys
 import warnings
 
 import numpy as np
-from numba import njit
+from numba import njit, prange
 from scipy.optimize import curve_fit
 
 
@@ -253,11 +253,11 @@ def findclosests(r, closest, begin, end, timestep):
     return closest
 
 
-@njit
+@njit(parallel=True)
 def ipcorr(closest, skip, L1, L2, L3, CL, moltype):
     correlation = np.zeros((CL + 1, L3, L3))
-    for i in range(L2):
-        for j in range(L3):
+    for j in prange(L3):
+        for i in range(L2):
             for k in range(skip, skip + CL):
                 for m in range(k, k + CL + 1):
                     if closest[k, i, j] == closest[m, i, j]:
@@ -265,6 +265,5 @@ def ipcorr(closest, skip, L1, L2, L3, CL, moltype):
     for i in range(L3):
         for j in range(L3):
             norm = correlation[0, i, j]
-            for k in range(CL + 1):
-                correlation[k, i, j] /= norm
+            correlation[:, i, j] /= norm
     return correlation
