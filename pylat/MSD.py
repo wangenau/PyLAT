@@ -54,10 +54,10 @@ class MSD:
         types in the system from center of mass positions
         """
 
-        (comx, comy, comz) = self.unwrap(comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2)
         comx = np.asarray(comx)
         comy = np.asarray(comy)
         comz = np.asarray(comz)
+        (comx, comy, comz) = unwrap(comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2)
         if ver > 0:
             print("unwrap complete")
         num_timesteps = len(comx)
@@ -81,34 +81,6 @@ class MSD:
         Time = self.createtime(dt, tsjump, len_MSD)
         self.append_dict(MSD, moltypel, output, Time)
         return output
-
-    def unwrap(self, comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2):
-        # unwraps the coordintes of the molecules
-        # assumes if a molecule is more than half a box length away from its
-        # previous coordinte that it passed through a periodic boundary
-        for i in range(1, len(comx)):
-            for j in range(0, len(comx[i])):
-                if (comx[i][j] - comx[i - 1][j]) > Lx2:
-                    while (comx[i][j] - comx[i - 1][j]) > Lx2:
-                        comx[i][j] -= Lx
-                elif (comx[i][j] - comx[i - 1][j]) < (-Lx2):
-                    while (comx[i][j] - comx[i - 1][j]) < (-Lx2):
-                        comx[i][j] += Lx
-
-                if (comy[i][j] - comy[i - 1][j]) > Ly2:
-                    while (comy[i][j] - comy[i - 1][j]) > Ly2:
-                        comy[i][j] -= Ly
-                elif (comy[i][j] - comy[i - 1][j]) < (-Ly2):
-                    while (comy[i][j] - comy[i - 1][j]) < (-Ly2):
-                        comy[i][j] += Ly
-
-                if (comz[i][j] - comz[i - 1][j]) > Lz2:
-                    while (comz[i][j] - comz[i - 1][j]) > Lz2:
-                        comz[i][j] -= Lz
-                elif (comz[i][j] - comz[i - 1][j]) < (-Lz2):
-                    while (comz[i][j] - comz[i - 1][j]) < (-Lz2):
-                        comz[i][j] += Lz
-        return (comx, comy, comz)
 
     def gettimesteps(self, num_timesteps, moltypel, skip, num_init):
         # Calculates the length of the trajectory
@@ -171,3 +143,33 @@ def MSDadd(r2, MSD, molcheck, i, j):
         sr2 = np.dot(r2, molcheck[k])
         MSD[k][j - i] += sr2
     return MSD
+
+
+@njit
+def unwrap(comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2):
+    # unwraps the coordintes of the molecules
+    # assumes if a molecule is more than half a box length away from its
+    # previous coordinte that it passed through a periodic boundary
+    for i in range(1, len(comx)):
+        for j in range(0, len(comx[i])):
+            if (comx[i][j] - comx[i - 1][j]) > Lx2:
+                while (comx[i][j] - comx[i - 1][j]) > Lx2:
+                    comx[i][j] -= Lx
+            elif (comx[i][j] - comx[i - 1][j]) < (-Lx2):
+                while (comx[i][j] - comx[i - 1][j]) < (-Lx2):
+                    comx[i][j] += Lx
+
+            if (comy[i][j] - comy[i - 1][j]) > Ly2:
+                while (comy[i][j] - comy[i - 1][j]) > Ly2:
+                    comy[i][j] -= Ly
+            elif (comy[i][j] - comy[i - 1][j]) < (-Ly2):
+                while (comy[i][j] - comy[i - 1][j]) < (-Ly2):
+                    comy[i][j] += Ly
+
+            if (comz[i][j] - comz[i - 1][j]) > Lz2:
+                while (comz[i][j] - comz[i - 1][j]) > Lz2:
+                    comz[i][j] -= Lz
+            elif (comz[i][j] - comz[i - 1][j]) < (-Lz2):
+                while (comz[i][j] - comz[i - 1][j]) < (-Lz2):
+                    comz[i][j] += Lz
+    return (comx, comy, comz)
