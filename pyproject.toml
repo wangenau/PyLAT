@@ -9,7 +9,7 @@ description = "Python LAMMPS Analysis Tools."
 readme = "README.md"
 license = {file = "LICENSE"}
 authors = [{name = "MaginnGroup", email = "ed@nd.edu"}]
-dependencies = ["numba", "numpy>=1.14.1", "scipy>=1.0.0"]
+dependencies = ["matplotlib", "numba", "numpy>=1.14.1", "scipy>=1.0.0"]
 
 [tool.setuptools.packages.find]
 exclude = ["examples*"]
