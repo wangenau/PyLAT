@@ -90,9 +90,7 @@ class calcCOM:
                 )
                 if ver:
                     sys.stdout.write(
-                        "\rCOM calculation {:.2f}% complete".format(
-                            count * 100.0 / num_timesteps
-                        )
+                        "\rCOM calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
                     )
             trjfile.close()
         if ver:

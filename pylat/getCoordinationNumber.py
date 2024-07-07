@@ -60,9 +60,7 @@ class getcoordinationnumber:
             output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)][
                 "Cumulative_Integral"
             ] = copy.deepcopy(integral)
-            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)][
-                "Minima"
-            ] = minima
+            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Minima"] = minima
             coord = []
             for j in range(0, len(minima)):
                 coord.append(integral[index[j]])
@@ -75,9 +73,9 @@ class getcoordinationnumber:
                 output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)][
                     "Cumulative_Integral"
                 ] = copy.deepcopy(integral)
-                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)][
-                    "Minima"
-                ] = minima
+                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Minima"] = (
+                    minima
+                )
                 coord = []
                 for j in range(0, len(minima)):
                     coord.append(integral[index[j]])
@@ -111,9 +109,7 @@ class getcoordinationnumber:
         # integrates the radial distribution functions
         integrallist = []
         for i in range(0, len(g)):
-            integrallist.append(
-                g[i] * nummoltype[moltypel.index(mol)] / V * 4 * np.pi * r[i] ** 2
-            )
+            integrallist.append(g[i] * nummoltype[moltypel.index(mol)] / V * 4 * np.pi * r[i] ** 2)
         integral = cumulative_trapezoid(integrallist, x=r)
         integral = integral.tolist()
         return integral

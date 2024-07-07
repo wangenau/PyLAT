@@ -16,3 +16,6 @@ exclude = ["examples*"]
 
 [tool.setuptools]
 script-files = ["scripts/PyLAT", "scripts/PyLATplot"]
+
+[tool.ruff]
+line-length = 100

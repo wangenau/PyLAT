@@ -71,9 +71,7 @@ class MSD:
                 MSD = MSDadd(r2, MSD, molcheck, i, j)
             if ver:
                 sys.stdout.write(
-                    "\rMSD calculation {:.2f}% complete".format(
-                        (i + 1 - skip) * 100.0 / num_init
-                    )
+                    "\rMSD calculation {:.2f}% complete".format((i + 1 - skip) * 100.0 / num_init)
                 )
         if ver:
             sys.stdout.write("\n")

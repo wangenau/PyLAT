@@ -194,12 +194,7 @@ def exponential3(x, A1, A2, A3, B1, B2, B3):
 
 @njit
 def exponential4(x, A1, A2, A3, A4, B1, B2, B3, B4):
-    return (
-        A1 * np.exp(-x / B1)
-        + A2 * np.exp(-x / B2)
-        + A3 * np.exp(-x / B3)
-        + A4 * np.exp(-x / B4)
-    )
+    return A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2) + A3 * np.exp(-x / B3) + A4 * np.exp(-x / B4)
 
 
 @njit

@@ -49,9 +49,7 @@ class distSearch:
         """
 
         output["Distance_Search"] = {}
-        (num_lines, n, num_timesteps, count, line, numFound, frame) = self.getnum(
-            trjfilename
-        )
+        (num_lines, n, num_timesteps, count, line, numFound, frame) = self.getnum(trjfilename)
         (Lx, Lx2, Ly, Ly2, Lz, Lz2) = self.getdimensions(trjfilename[0])
         (x, y, z, mol, atype, aid) = self.createarrays(n)
         (xcol, ycol, zcol, molcol, typecol, idcol) = self.getcolumns(trjfilename[0])
@@ -375,12 +373,12 @@ class distSearch:
                         molid[indid[j]].sort()
                         print("Sample {} Found".format(numFound))
                         output["Distance_Search"]["Sample_{}".format(numFound)] = {}
-                        output["Distance_Search"]["Sample_{}".format(numFound)][
-                            "Distance"
-                        ] = float(r[j])
-                        output["Distance_Search"]["Sample_{}".format(numFound)][
-                            "Frame"
-                        ] = int(frame)
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["Distance"] = float(
+                            r[j]
+                        )
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["Frame"] = int(
+                            frame
+                        )
                         output["Distance_Search"]["Sample_{}".format(numFound)][
                             "Molecule_1_IDs"
                         ] = molid[i]

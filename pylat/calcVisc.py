@@ -72,9 +72,7 @@ class calcVisc:
             for j in range(0, trjlen):
                 viscosity[i - 1][j] += visco[j]
             if ver >= 1:
-                sys.stdout.write(
-                    "\rViscosity Trajectory {} of {} complete".format(i, numtrj)
-                )
+                sys.stdout.write("\rViscosity Trajectory {} of {} complete".format(i, numtrj))
         if ver >= 1:
             sys.stdout.write("\n")
 
@@ -84,14 +82,10 @@ class calcVisc:
         # random.seed(123456789)
         for i in range(0, numboot):
             Values.append(
-                self.Bootstrap(
-                    numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2
-                )
+                self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2)
             )
             if ver > 1:
-                sys.stdout.write(
-                    "\rViscosity Bootstrap {} of {} complete".format(i + 1, numboot)
-                )
+                sys.stdout.write("\rViscosity Bootstrap {} of {} complete".format(i + 1, numboot))
         if ver > 1:
             sys.stdout.write("\n")
 

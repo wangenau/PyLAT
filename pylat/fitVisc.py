@@ -73,11 +73,7 @@ class fitVisc:
 
             rcParams.update({"font.size": 14})
             print("Viscosity estimate is {}".format(Value))
-            print(
-                "A={}, alpha={}, tau1={}, tau2={}".format(
-                    popt2[0], popt2[1], popt2[2], popt2[3]
-                )
-            )
+            print("A={}, alpha={}, tau1={}, tau2={}".format(popt2[0], popt2[1], popt2[2], popt2[3]))
             print("Time cutoff is {}".format(time[cut - 1]))
             plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
             plt.plot(timep[: len(visc)], visc, label="Viscosity")

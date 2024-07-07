@@ -119,15 +119,9 @@ class COMradialdistribution:
             # contains boolean for if that molecule is of the molecule type
 
         for molecule in range(0, nummol - 1):
-            dx = comxt[molecule + 1 :] - np.tile(
-                comxt[molecule], (len(comxt) - molecule - 1, 1)
-            )
-            dy = comyt[molecule + 1 :] - np.tile(
-                comyt[molecule], (len(comyt) - molecule - 1, 1)
-            )
-            dz = comzt[molecule + 1 :] - np.tile(
-                comzt[molecule], (len(comzt) - molecule - 1, 1)
-            )
+            dx = comxt[molecule + 1 :] - np.tile(comxt[molecule], (len(comxt) - molecule - 1, 1))
+            dy = comyt[molecule + 1 :] - np.tile(comyt[molecule], (len(comyt) - molecule - 1, 1))
+            dz = comzt[molecule + 1 :] - np.tile(comzt[molecule], (len(comzt) - molecule - 1, 1))
 
             dx -= Lx * np.around(dx / Lx)
             dy -= Ly * np.around(dy / Ly)
@@ -148,9 +142,7 @@ class COMradialdistribution:
         count = len(comx)
         return count
 
-    def radialnormalization(
-        self, numbins, binsize, Lx, Ly, Lz, nummol, count, g, firststep
-    ):
+    def radialnormalization(self, numbins, binsize, Lx, Ly, Lz, nummol, count, g, firststep):
         # normalizes g to box density
         radiuslist = (np.arange(numbins) + 1) * binsize
         radiuslist = np.around(radiuslist, decimals=1)
@@ -174,8 +166,8 @@ class COMradialdistribution:
         for i in range(0, len(moltypel)):
             for j in range(i, len(moltypel)):
                 if not all([v == 0 for v in g[i][j]]):
-                    output["RDF"]["{0}-{1}".format(moltypel[i], moltypel[j])] = (
-                        copy.deepcopy(g[i][j].tolist())
+                    output["RDF"]["{0}-{1}".format(moltypel[i], moltypel[j])] = copy.deepcopy(
+                        g[i][j].tolist()
                     )
         if "distance" not in list(output["RDF"].keys()):
             output["RDF"]["distance"] = copy.deepcopy(radiuslist.tolist())

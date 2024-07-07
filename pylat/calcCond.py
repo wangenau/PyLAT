@@ -105,9 +105,7 @@ class calcCond:
                     n,
                     nummol,
                 )
-                (jx, jy, jz, count) = self.calcj(
-                    dotlist, comvx, comvy, comvz, jx, jy, jz, count
-                )
+                (jx, jy, jz, count) = self.calcj(dotlist, comvx, comvy, comvz, jx, jy, jz, count)
                 if ver == 2:
                     sys.stdout.write(
                         "\rCOM velocity calculation {:.2f}% complete".format(
@@ -349,9 +347,7 @@ class calcCond:
         datfile.close()
         return atommass
 
-    def calcCOMv(
-        self, comvx, comvy, comvz, vx, vy, vz, mol, atype, atommass, molmass, n, nummol
-    ):
+    def calcCOMv(self, comvx, comvy, comvz, vx, vy, vz, mol, atype, atommass, molmass, n, nummol):
         # calculates the center of mass velocity of all molecules for the timestep
         amass = np.zeros(n)
         for i in range(0, n):
