@@ -58,7 +58,7 @@ class calcVisc:
         (Time, visco) = Log.viscosity(numskip)
         trjlen = len(Time)
         viscosity = np.zeros((numtrj, trjlen))
-        for i in range(0, len(visco)):
+        for i in range(len(visco)):
             viscosity[0][i] += visco[i]
         if ver >= 1:
             sys.stdout.write("Viscosity Trajectory 1 of {} complete".format(numtrj))
@@ -69,7 +69,7 @@ class calcVisc:
             (Time, visco) = Log.viscosity(numskip)
             if len(visco) < trjlen:
                 trjlen = len(visco)
-            for j in range(0, trjlen):
+            for j in range(trjlen):
                 viscosity[i - 1][j] += visco[j]
             if ver >= 1:
                 sys.stdout.write("\rViscosity Trajectory {} of {} complete".format(i, numtrj))
@@ -80,7 +80,7 @@ class calcVisc:
         Values = []
         fv = fitVisc()
         # random.seed(123456789)
-        for i in range(0, numboot):
+        for i in range(numboot):
             Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2))
             if ver > 1:
                 sys.stdout.write("\rViscosity Bootstrap {} of {} complete".format(i + 1, numboot))
@@ -103,13 +103,13 @@ class calcVisc:
     def Bootstrap(self, numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2):
         # Perform calculate the viscosity of one bootstrapping sample
         Bootlist = np.zeros((numsamples, trjlen))
-        for j in range(0, numsamples):
+        for j in range(numsamples):
             rint = random.randint(0, numtrj - 1)
-            for k in range(0, trjlen):
+            for k in range(trjlen):
                 Bootlist[j][k] = viscosity[rint][k]
         average = np.zeros(trjlen)
         stddev = np.zeros(trjlen)
-        for j in range(0, trjlen):
+        for j in range(trjlen):
             average[j] = np.average(Bootlist.transpose()[j])
             stddev[j] = np.std(Bootlist.transpose()[j])
         Value = fv.fitvisc(Time, average, stddev, plot, popt2)

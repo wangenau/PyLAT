@@ -63,7 +63,7 @@ class ionpair:
             "The Ion Pair Lifetime correlation function is fit to a single exponential, a double exponential up to 5 exponentials. The results shown are the result of these successive fittings"
         )
         (closest, begin, end, C) = self.init(len(comx[0]), moltypel, len(comx), moltype)
-        for step in range(0, len(comx)):
+        for step in range(len(comx)):
             r = self.calcdistance(comx[step], comy[step], comz[step], Lx, Ly, Lz)
             closest = self.findclosest(r, closest, begin, end, step)
             if ver:
@@ -76,16 +76,16 @@ class ionpair:
         if ver:
             print("correlation complete")
         time = []
-        for i in range(0, len(correlation)):
+        for i in range(len(correlation)):
             time.append(float(i * tsjump * dt / 1000))
         begin = int(1000 / dt / tsjump)
         end = len(time)
-        for i in range(0, len(moltypel)):
-            for j in range(0, len(moltypel)):
+        for i in range(len(moltypel)):
+            for j in range(len(moltypel)):
                 if i != j:
                     y = []
                     end = 0
-                    for k in range(0, len(correlation)):
+                    for k in range(len(correlation)):
                         y.append(float(correlation[k][i][j]))
                         if correlation[k][i][j] <= 0.04 and end == 0:
                             end = k
@@ -162,7 +162,7 @@ class ionpair:
                     SSres += (correlation[i] - fit[i]) ** 2
                 r2.append(1 - SSres / SStot)
                 IPL.append(0)
-                for i in range(0, int(len(popt) / 2)):
+                for i in range(int(len(popt) / 2)):
                     IPL[-1] += popt[i] * popt[i + int(len(popt) / 2)]
         return (IPL, r2)
 

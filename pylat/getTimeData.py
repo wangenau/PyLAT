@@ -52,7 +52,7 @@ class gettimedata:
         t1 = int(t1)
         trjfile.readline()
         n = int(trjfile.readline())
-        for i in range(0, n + 6):
+        for i in range(n + 6):
             trjfile.readline()
         t2 = int(trjfile.readline())
         tsjump = t2 - t1

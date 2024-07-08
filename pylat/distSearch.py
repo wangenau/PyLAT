@@ -54,10 +54,10 @@ class distSearch:
         (x, y, z, mol, atype, aid) = self.createarrays(n)
         (xcol, ycol, zcol, molcol, typecol, idcol) = self.getcolumns(trjfilename[0])
         atommass = self.getmass(datfilename)
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             trjfile = open(trjfilename[i])
-            for j in range(0, firstFrame - 1):
-                for k in range(0, n + 9):
+            for j in range(firstFrame - 1):
+                for k in range(n + 9):
                     trjfile.readline()
                 line[i] += n + 9
                 frame += 1
@@ -129,13 +129,13 @@ class distSearch:
     def getnum(self, trjfilename):
         # uses the trjectory file and returns the number of lines and the number of atoms
         trjfile = open(trjfilename[0])
-        for i in range(0, 3):
+        for i in range(3):
             trjfile.readline()
         n = int(trjfile.readline())
         trjfile.close()
         num_timesteps = 1
         num_lines = []
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             num_lines.append(int(sum(1 for line in open(trjfilename[i]))))
             num_timesteps += int(num_lines[i] / (n + 9)) - 1
         line = [10 for x in trjfilename]
@@ -149,7 +149,7 @@ class distSearch:
     def getdimensions(self, trjfilename):
         # uses trjectory file to get the length of box sides
         trjfile = open(trjfilename)
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()
@@ -179,7 +179,7 @@ class distSearch:
     def getcolumns(self, trjfilename):
         # defines the columns each data type is in in the trjectory file
         trjfile = open(trjfilename)
-        for j in range(0, 8):
+        for j in range(8):
             trjfile.readline()
         inline = trjfile.readline()
         inline = inline.split()
@@ -201,7 +201,7 @@ class distSearch:
         readingmasses = True
         atomnum = 1
         datfile = open(datfilename)
-        for i in range(0, 4):
+        for i in range(4):
             datfile.readline()
 
         while foundmass is False:
@@ -248,9 +248,9 @@ class distSearch:
         idcol,
     ):
         # reads data from trjectory file into precreated arrays
-        for j in range(0, 9):
+        for j in range(9):
             trjfile.readline()
-        for a in range(0, n):
+        for a in range(n):
             inline = trjfile.readline()
             inline = inline.split()
             x[a] = inline[xcol]
@@ -271,15 +271,15 @@ class distSearch:
         comz = [0 for x in range(nummol)]
 
         molmass = np.zeros(nummol)
-        for atom in range(0, n):
+        for atom in range(n):
             molmass[int(mol[atom] - 1)] += atommass[atype[atom]]
 
         return (nummol, comx, comy, comz, molmass)
 
     def molID(self, mol, aid, moltype):
         # generates arrays for ids of example molecules
-        molid = [[] for i in range(0, len(moltype))]
-        for i in range(0, len(mol)):
+        molid = [[] for i in range(len(moltype))]
+        for i in range(len(mol)):
             molid[int(mol[i]) - 1].append(int(aid[i]))
         return molid
 
@@ -307,7 +307,7 @@ class distSearch:
     ):
         # calculates the center of mass for each molecule
         amass = np.zeros(n)
-        for i in range(0, n):
+        for i in range(n):
             amass[i] = atommass[atype[i]]
 
         (comxt, comyt, comzt) = calccomf.calccom(n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2)
@@ -341,14 +341,14 @@ class distSearch:
     ):
         # Finds molecules at the given distance apart
         ind = []
-        for i in range(0, len(moltype)):
+        for i in range(len(moltype)):
             ind.append(moltype[i] == moltypel.index(mol2))
         indid = [i for i, x in enumerate(ind) if x]
-        for i in range(0, len(moltype)):
+        for i in range(len(moltype)):
             if moltype[i] == moltypel.index(mol1):
-                dx = comx[ind] - np.array([comx[i] for j in range(0, len(indid))])
-                dy = comy[ind] - np.array([comy[i] for j in range(0, len(indid))])
-                dz = comz[ind] - np.array([comz[i] for j in range(0, len(indid))])
+                dx = comx[ind] - np.array([comx[i] for j in range(len(indid))])
+                dy = comy[ind] - np.array([comy[i] for j in range(len(indid))])
+                dz = comz[ind] - np.array([comz[i] for j in range(len(indid))])
 
                 dx -= Lx * np.around(dx / Lx)
                 dy -= Ly * np.around(dy / Ly)
@@ -357,7 +357,7 @@ class distSearch:
                 r2 = dx**2 + dy**2 + dz**2
                 r = np.sqrt(r2)
 
-                for j in range(0, len(r)):
+                for j in range(len(r)):
                     if (
                         (np.abs(r[j] - dist) < deltaDist)
                         and (numFound < numSamples)

@@ -39,7 +39,7 @@ class calcDielectricConstant:
         (xcol, ycol, zcol, molcol, idcol) = self.getcolumns(trjfilename)
         if ver >= 1:
             print("beginning dipole moment calculation")
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             trjfile = open(trjfilename[i])
             while line[i] < num_lines[i]:
                 (x, y, z, mol, line) = self.readdata(trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i)
@@ -67,13 +67,13 @@ class calcDielectricConstant:
     def getnum(self, trjfilename):
         # uses the trjectory file and returns the number of lines and the number of atoms
         trjfile = open(trjfilename[0])
-        for i in range(0, 3):
+        for i in range(3):
             trjfile.readline()
         n = int(trjfile.readline())
         trjfile.close()
         num_timesteps = 1
         num_lines = []
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             num_lines.append(int(sum(1 for line in open(trjfilename[i]))))
             num_timesteps += int(num_lines[i] / (n + 9)) - 1
         line = [10 for x in trjfilename]
@@ -85,7 +85,7 @@ class calcDielectricConstant:
     def getdimensions(self, trjfilename):
         # uses trjectory file to get the length of box sides
         trjfile = open(trjfilename[0])
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()
@@ -116,7 +116,7 @@ class calcDielectricConstant:
     def getcolumns(self, trjfilename):
         # defines the columns each data type is in in the trjectory file
         trjfile = open(trjfilename[0])
-        for j in range(0, 8):
+        for j in range(8):
             trjfile.readline()
         inline = trjfile.readline()
         inline = inline.split()
@@ -141,9 +141,9 @@ class calcDielectricConstant:
 
     def readdata(self, trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i):
         # reads data from trjectory file into precreated arrays
-        for j in range(0, 9):
+        for j in range(9):
             trjfile.readline()
-        for a in range(0, n):
+        for a in range(n):
             inline = trjfile.readline()
             inline = inline.split()
             idx = int(inline[idcol]) - 1
@@ -182,7 +182,7 @@ class calcDielectricConstant:
     def getvolume(self, trjfilename):
         # Calculates volume of the system
         trjfile = open(trjfilename)
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()

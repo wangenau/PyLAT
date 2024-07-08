@@ -13,7 +13,7 @@ filelist = range(2, 51)
 for num in filelist:
     os.system("mkdir test_{0}".format(num))
     output = open("test_{0}/in.visc".format(num), "w")
-    for line in range(0, len(samplefile)):
+    for line in range(len(samplefile)):
         if line == 31:
             output.write(
                 "velocity        all create  ${{mytemp}} {0} units box \n".format(random.randint(1, 999999999))

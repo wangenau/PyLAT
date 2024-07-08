@@ -47,7 +47,7 @@ class getcoordinationnumber:
         pairlist.remove("units")
         pairlist.remove("distance")
         r = output["RDF"]["distance"]
-        for i in range(0, len(pairlist)):
+        for i in range(len(pairlist)):
             g = output["RDF"][pairlist[i]]
             split = pairlist[i].split("-")
             mol1 = split[0]
@@ -60,7 +60,7 @@ class getcoordinationnumber:
             )
             output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Minima"] = minima
             coord = []
-            for j in range(0, len(minima)):
+            for j in range(len(minima)):
                 coord.append(integral[index[j]])
             output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Coordination_Numbers"] = coord
             if mol2 != mol1:
@@ -71,7 +71,7 @@ class getcoordinationnumber:
                 )
                 output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Minima"] = minima
                 coord = []
-                for j in range(0, len(minima)):
+                for j in range(len(minima)):
                     coord.append(integral[index[j]])
                 output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Coordination_Numbers"] = coord
         return output
@@ -100,7 +100,7 @@ class getcoordinationnumber:
     def integrate(self, g, r, nummoltype, moltypel, V, mol):
         # integrates the radial distribution functions
         integrallist = []
-        for i in range(0, len(g)):
+        for i in range(len(g)):
             integrallist.append(g[i] * nummoltype[moltypel.index(mol)] / V * 4 * np.pi * r[i] ** 2)
         integral = cumulative_trapezoid(integrallist, x=r)
         integral = integral.tolist()
@@ -109,7 +109,7 @@ class getcoordinationnumber:
     def getvolume(self, trjfilename):
         # calculates the volume of the system (assumes NVT or NVE ensemble)
         trjfile = open(trjfilename)
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()

@@ -93,16 +93,16 @@ class MSD:
         # Array is MxN where M is number of molecule types and N is number of molecules
         # value is 1 if molecule N is of type M else is 0
         molcheck = np.zeros((len(moltypel), len(moltype)))
-        for i in range(0, len(moltype)):
+        for i in range(len(moltype)):
             molcheck[moltype[i]][i] = 1
         nummol = np.zeros(len(moltypel))
-        for i in range(0, len(nummol)):
+        for i in range(len(nummol)):
             nummol[i] = np.sum(molcheck[i])
         return (molcheck, nummol)
 
     def MSDnorm(self, MSD, MSDt, nummol):
         # Normalize the MSD by number of molecules and number of initial timesteps
-        for i in range(0, len(nummol)):
+        for i in range(len(nummol)):
             MSD[i] /= MSDt * nummol[i]
 
         return MSD
@@ -117,7 +117,7 @@ class MSD:
         # Write MSD to output dictionary
         output["MSD"] = {}
         output["MSD"]["units"] = "Angstroms^2, fs"
-        for i in range(0, len(moltypel)):
+        for i in range(len(moltypel)):
             output["MSD"][moltypel[i]] = copy.deepcopy(MSD[i].tolist())
 
         output["MSD"]["time"] = copy.deepcopy(Time.tolist())
@@ -133,7 +133,7 @@ def calcr2(comx, comy, comz, i, j):
 @njit
 def MSDadd(r2, MSD, molcheck, i, j):
     # Uses dot product to calculate average MSD for a molecule type
-    for k in range(0, len(molcheck)):
+    for k in range(len(molcheck)):
         sr2 = np.dot(r2, molcheck[k])
         MSD[k][j - i] += sr2
     return MSD
@@ -145,7 +145,7 @@ def unwrap(comx, comy, comz, Lx, Ly, Lz, Lx2, Ly2, Lz2):
     # assumes if a molecule is more than half a box length away from its
     # previous coordinte that it passed through a periodic boundary
     for i in range(1, len(comx)):
-        for j in range(0, len(comx[i])):
+        for j in range(len(comx[i])):
             if (comx[i][j] - comx[i - 1][j]) > Lx2:
                 while (comx[i][j] - comx[i - 1][j]) > Lx2:
                     comx[i][j] -= Lx

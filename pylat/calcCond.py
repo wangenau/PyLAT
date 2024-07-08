@@ -67,7 +67,7 @@ class calcCond:
         dotlist = self.getchargearrays(molcharges, moltype)
         if ver >= 1:
             print("beginning COM velocity calculation")
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             trjfile = open(trjfilename[i])
             while count < num_timesteps:
                 (vx, vy, vz, line, mol, atype) = self.readdata(
@@ -120,15 +120,15 @@ class calcCond:
         integral = self.integrateJ(J, tsjump * dt)
         (begcon, endcon) = self.findconvergance(J[0], tol)
         time = []
-        for i in range(0, len(integral[0])):
+        for i in range(len(integral[0])):
             time.append(i * tsjump * dt)
         cond = np.zeros(len(J))
-        for i in range(0, len(J)):
+        for i in range(len(J)):
             ave = self.fitcurve(time, integral[i], begcon, endcon)
             cond[i] = self.greenkubo(ave, T, V)
         GKintegral = self.greenkubo(integral, T, V)
         fit = []
-        for i in range(0, len(time)):
+        for i in range(len(time)):
             fit.append(ave)
         output["Conductivity"]["Green_Kubo"] = cond[0]
         a = GKintegral[0]
@@ -145,7 +145,7 @@ class calcCond:
     def getdimensions(self, trjfilename):
         # uses trjectory file to get the length of box sides
         trjfile = open(trjfilename)
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()
@@ -163,13 +163,13 @@ class calcCond:
     def getnum(self, trjfilename):
         # uses the trjectory file and returns the number of lines and the number of atoms
         trjfile = open(trjfilename[0])
-        for j in range(0, 3):
+        for j in range(3):
             trjfile.readline()
         n = int(trjfile.readline())
         trjfile.close()
         num_timesteps = 1
         num_lines = []
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             num_lines.append(int(sum(1 for line in open(trjfilename[i]))))
             num_timesteps += int(num_lines[i] / (n + 9)) - 1
         line = [10 for x in trjfilename]
@@ -190,7 +190,7 @@ class calcCond:
     def getcolumns(self, trjfilename):
         # defines the columns each data type is in in the trjectory file
         trjfile = open(trjfilename)
-        for j in range(0, 8):
+        for j in range(8):
             trjfile.readline()
         inline = trjfile.readline()
         inline = inline.split()
@@ -224,9 +224,9 @@ class calcCond:
         typecol,
     ):
         # reads data from trjectory file into precreated arrays
-        for j in range(0, 9):
+        for j in range(9):
             trjfile.readline()
-        for a in range(0, n):
+        for a in range(n):
             inline = trjfile.readline()
             inline = inline.split()
             idx = int(inline[idcol]) - 1
@@ -242,7 +242,7 @@ class calcCond:
     def calcj(self, dotlist, comvx, comvy, comvz, jx, jy, jz, count):
         # calculates the charge flux for a timestep
         # seperated into the contributions by different molecule types
-        for i in range(0, len(dotlist)):
+        for i in range(len(dotlist)):
             jx[i][count] = np.dot(dotlist[i], comvx)
             jy[i][count] = np.dot(dotlist[i], comvy)
             jz[i][count] = np.dot(dotlist[i], comvz)
@@ -255,8 +255,8 @@ class calcCond:
         # J[m] is the charge correlation function for the mth species
         counter = 0
         J = np.zeros((len(jx) + 1, len(jx[0])))
-        for i in range(0, len(jx)):
-            for m in range(0, len(jx)):
+        for i in range(len(jx)):
+            for m in range(len(jx)):
                 Jtest = self.correlate(jx[i], jx[m])
                 J[0] += Jtest
                 J[m + 1] += Jtest
@@ -278,7 +278,7 @@ class calcCond:
     def integrateJ(self, J, dt):
         # Integrates the charge flux correlation function to calculate conductivity
         integral = np.zeros((len(J), len(J[0])))
-        for i in range(0, len(J)):
+        for i in range(len(J)):
             integral[i][1:] = cumulative_trapezoid(J[i], dx=dt)
         return integral
 
@@ -302,7 +302,7 @@ class calcCond:
         comvz = np.zeros(nummol)
 
         molmass = np.zeros(nummol)
-        for atom in range(0, n):
+        for atom in range(n):
             molmass[mol[atom] - 1] += atommass[atype[atom]]
         jx = np.zeros((len(moltypel), num_timesteps))
         jy = np.zeros((len(moltypel), num_timesteps))
@@ -316,7 +316,7 @@ class calcCond:
         readingmasses = True
         atomnum = 1
         datfile = open(datfilename)
-        for i in range(0, 4):
+        for i in range(4):
             datfile.readline()
 
         while foundmass is False:
@@ -346,7 +346,7 @@ class calcCond:
     def calcCOMv(self, comvx, comvy, comvz, vx, vy, vz, mol, atype, atommass, molmass, n, nummol):
         # calculates the center of mass velocity of all molecules for the timestep
         amass = np.zeros(n)
-        for i in range(0, n):
+        for i in range(n):
             amass[i] = atommass[atype[i]]
         (comvxt, comvyt, comvzt) = calccomf.calccom(
             n, nummol, vx, vy, vz, mol, amass, molmass, 0, 0, 0, 100000, 100000, 100000
@@ -392,8 +392,8 @@ class calcCond:
     def getchargearrays(self, molcharges, moltype):
         # generates an array with the charge on each molecule
         dotlist = np.zeros((int(max(moltype) + 1), int(len(molcharges))))
-        for i in range(0, len(dotlist)):
-            for k in range(0, len(moltype)):
+        for i in range(len(dotlist)):
+            for k in range(len(moltype)):
                 if moltype[k] == i:
                     dotlist[i][k] = molcharges[k]
 
@@ -404,7 +404,7 @@ class calcCond:
         # First column is time, second is the total correlation function
         # Remaining columns are the contribution of different molecule types
         outfile = open("J.dat", "w")
-        for i in range(0, len(J[0])):
+        for i in range(len(J[0])):
             outfile.write("{}\t{}".format(tsjump * dt * i, J[0][i]))
             for k in range(1, len(J)):
                 outfile.write("\t{}".format(J[k][i]))

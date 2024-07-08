@@ -35,7 +35,7 @@ class calcdiffusivity:
 
         output["Diffusivity"] = {}
         output["Diffusivity"]["units"] = "m^2/s"
-        for i in range(0, len(moltypel)):
+        for i in range(len(moltypel)):
             MSD = output["MSD"][moltypel[i]]
             lnMSD = np.log(MSD[1:])
             time = output["MSD"]["time"]
@@ -85,6 +85,6 @@ class calcdiffusivity:
 
     def writeLogLog(self, lnMSD, lntime, moltype):
         outfile = open("LogLog{}.dat".format(moltype), "w")
-        for i in range(0, len(lnMSD)):
+        for i in range(len(lnMSD)):
             outfile.write("{}\t{}\n".format(lntime[i], lnMSD[i]))
         outfile.close()

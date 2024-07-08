@@ -43,8 +43,8 @@ class getmoldata:
             else:
                 readingmolecules = False
 
-        for i in range(0, len(moltypel)):
-            for j in range(0, nummoltype[i]):
+        for i in range(len(moltypel)):
+            for j in range(nummoltype[i]):
                 moltype.append(int(i))
 
         datfile.close()

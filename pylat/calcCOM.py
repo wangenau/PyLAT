@@ -44,7 +44,7 @@ class calcCOM:
         (x, y, z, mol, atype) = self.createarrays(n)
         (xcol, ycol, zcol, molcol, typecol) = self.getcolumns(trjfilename[0])
         atommass = self.getmass(datfilename)
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             trjfile = open(trjfilename[i])
             while line[i] < num_lines[i]:
                 (x, y, z, mol, atype, line) = self.readdata(
@@ -96,13 +96,13 @@ class calcCOM:
     def getnum(self, trjfilename):
         # uses the trjectory file and returns the number of lines and the number of atoms
         trjfile = open(trjfilename[0])
-        for i in range(0, 3):
+        for i in range(3):
             trjfile.readline()
         n = int(trjfile.readline())
         trjfile.close()
         num_timesteps = 1
         num_lines = []
-        for i in range(0, len(trjfilename)):
+        for i in range(len(trjfilename)):
             num_lines.append(int(sum(1 for line in open(trjfilename[i]))))
             num_timesteps += int(num_lines[i] / (n + 9)) - 1
         line = [10 for x in trjfilename]
@@ -114,7 +114,7 @@ class calcCOM:
     def getdimensions(self, trjfilename):
         # uses trjectory file to get the length of box sides
         trjfile = open(trjfilename)
-        for i in range(0, 5):
+        for i in range(5):
             trjfile.readline()
         xbounds = trjfile.readline()
         xbounds = xbounds.split()
@@ -143,7 +143,7 @@ class calcCOM:
     def getcolumns(self, trjfilename):
         # defines the columns each data type is in in the trjectory file
         trjfile = open(trjfilename)
-        for j in range(0, 8):
+        for j in range(8):
             trjfile.readline()
         inline = trjfile.readline()
         inline = inline.split()
@@ -164,7 +164,7 @@ class calcCOM:
         readingmasses = True
         atomnum = 1
         datfile = open(datfilename)
-        for i in range(0, 4):
+        for i in range(4):
             datfile.readline()
 
         while foundmass is False:
@@ -209,9 +209,9 @@ class calcCOM:
         i,
     ):
         # reads data from trjectory file into precreated arrays
-        for j in range(0, 9):
+        for j in range(9):
             trjfile.readline()
-        for a in range(0, n):
+        for a in range(n):
             inline = trjfile.readline()
             inline = inline.split()
             x[a] = inline[xcol]
@@ -231,7 +231,7 @@ class calcCOM:
         comz = [[0 for x in range(nummol)] for x in range(num_timesteps)]
 
         molmass = np.zeros(nummol)
-        for atom in range(0, n):
+        for atom in range(n):
             molmass[int(mol[atom] - 1)] += atommass[atype[atom]]
 
         return (nummol, comx, comy, comz, molmass)
@@ -260,7 +260,7 @@ class calcCOM:
     ):
         # calculates the center of mass for each molecule
         amass = np.zeros(n)
-        for i in range(0, n):
+        for i in range(n):
             amass[i] = atommass[atype[i]]
 
         # Calls a fortran code to increase the efficiency of the calculations

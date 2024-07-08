@@ -32,7 +32,7 @@ class calcNEconductivity:
         e = 1.60217657e-19
         k = 1.3806488e-23
         NEcond = 0
-        for i in range(0, len(moltypel)):
+        for i in range(len(moltypel)):
             q = float(molcharge[moltypel[i]])
             if q != 0:
                 try:

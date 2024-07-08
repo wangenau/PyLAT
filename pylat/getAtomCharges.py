@@ -43,7 +43,7 @@ class getatomcharges:
     def getmolcharges(self, datfilename, n):
         # Returns arrays with the charge of all atoms and molecules in the system
         datfile = open(datfilename)
-        for j in range(0, 4):
+        for j in range(4):
             datfile.readline()
         atomcharges = np.zeros(n)
         mol = np.zeros(n)
@@ -70,7 +70,7 @@ class getatomcharges:
 
         nummol = int(max(mol))
         molcharges = np.zeros(nummol)
-        for atom in range(0, n):
+        for atom in range(n):
             molcharges[int(mol[int(atom)]) - 1] += atomcharges[int(atom)]
 
         datfile.close()
@@ -79,6 +79,6 @@ class getatomcharges:
     def molchargedict(self, molcharges, moltypel, moltype):
         # creates a dictionary assigning charge to a molecule type
         molcharge = {}
-        for molecules in range(0, len(moltypel)):
+        for molecules in range(len(moltypel)):
             molcharge[moltypel[molecules]] = molcharges[moltype.index(molecules)]
         return molcharge
