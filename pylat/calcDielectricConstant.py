@@ -1,5 +1,4 @@
-"""
-Created on Thu Jun  2 14:49:27 2016
+"""Created on Thu Jun  2 14:49:27 2016
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -28,11 +27,9 @@ from numba import njit
 
 class calcDielectricConstant:
     def calcDEC(self, atomcharges, trjfilename, T, output, V, ver, start):
-        """
-        This function calculates the dielectric constant of the system using
+        """This function calculates the dielectric constant of the system using
         the fluctuations in the dipole moment
         """
-
         (num_lines, n, num_timesteps, count, line) = self.getnum(trjfilename)
         (Lx, Lx2, Ly, Ly2, Lz, Lz2) = self.getdimensions(trjfilename)
         (x, y, z, mol, Mx, My, Mz) = self.createarrays(n, num_timesteps)

@@ -1,5 +1,4 @@
-"""
-Created on Thu Mar 12 14:08:27 2015
+"""Created on Thu Mar 12 14:08:27 2015
 
 @author: mhumbert
 
@@ -49,11 +48,9 @@ class MSD:
         skip,
         num_init,
     ):
-        """
-        This function calculates the mean square displacement for all molecule
+        """This function calculates the mean square displacement for all molecule
         types in the system from center of mass positions
         """
-
         comx = np.asarray(comx)
         comy = np.asarray(comy)
         comz = np.asarray(comz)

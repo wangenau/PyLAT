@@ -1,5 +1,4 @@
-"""
-Created on Fri May  8 10:17:55 2015
+"""Created on Fri May  8 10:17:55 2015
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -26,7 +25,7 @@ import sys
 import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
-import pylat.calccomf as calccomf
+from pylat import calccomf
 from pylat.getTimeData import gettimedata
 
 
@@ -48,15 +47,13 @@ class calcCond:
         tol,
         Jout,
     ):
-        """
-        This function calculates the ionic conductivity of the system using the
+        """This function calculates the ionic conductivity of the system using the
         Green-Kubo formalism
 
         returns both the total conductivity as well as the contribution of each
         species
 
         """
-
         dt = self.g.getdt(logfilename)
         tsjump = self.g.getjump(trjfilename[0])
         (num_lines, n, num_timesteps, count, line) = self.getnum(trjfilename)

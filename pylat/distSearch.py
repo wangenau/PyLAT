@@ -1,5 +1,4 @@
-"""
-Created on Fri Nov 17 14:09:31 2017
+"""Created on Fri Nov 17 14:09:31 2017
 
 @author: mhumbert
 
@@ -24,7 +23,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import numpy as np
 
-import pylat.calccomf as calccomf
+from pylat import calccomf
 
 
 class distSearch:
@@ -42,12 +41,10 @@ class distSearch:
         moltypel,
         output,
     ):
-        """
-        This function will search through a trajectory to find examples where two
+        """This function will search through a trajectory to find examples where two
         molecules of given types are at a certain distance apart. Useful for
         generation of images
         """
-
         output["Distance_Search"] = {}
         (num_lines, n, num_timesteps, count, line, numFound, frame) = self.getnum(trjfilename)
         (Lx, Lx2, Ly, Ly2, Lz, Lz2) = self.getdimensions(trjfilename[0])

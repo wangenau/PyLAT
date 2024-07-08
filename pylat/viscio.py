@@ -1,5 +1,4 @@
-"""
-PyLAT: Python LAMMPS Analysis Tools
+"""PyLAT: Python LAMMPS Analysis Tools
 Copyright (C) 2018  Michael Humbert, Yong Zhang and Ed Maginn
 
 This program is free software: you can redistribute it and/or modify
@@ -41,22 +40,21 @@ def autocorrelate(a):
 
 
 class LammpsLog:
-    """
-    Parser for LAMMPS log file (parse function).
+    """Parser for LAMMPS log file (parse function).
     Saves the output properties (log file) in the form of a dictionary (LOG) with the key being
     the LAMMPS output property (see 'thermo_style custom' command in the LAMMPS documentation).
     For example, LOG['temp'] will return the temperature data array in the log file.
     """
 
     def __init__(self, llog, avgs=None):
-        """
-        Args:
+        """Args:
+        ----
             llog:
                 Dictionary of lamps log
             avgs:
                 Dictionary of averages, will be generated automatically if unspecified
-        """
 
+        """
         self.llog = (
             llog  # Dictionary LOG has all the output property data as numpy 1D arrays with the property name as the key
         )
@@ -71,8 +69,7 @@ class LammpsLog:
 
     @classmethod
     def from_file(cls, filename):
-        """
-        Parses the log file.
+        """Parses the log file.
         """
         md = 0  # To avoid reading the minimization data steps
         header = 0
@@ -84,19 +81,19 @@ class LammpsLog:
 
             for line in logfile:
                 # timestep
-                time = re.search("timestep\s+([0-9]+)", line)
+                time = re.search(r"timestep\s+([0-9]+)", line)
                 if time:
                     timestep = float(time.group(1))
                     llog["timestep"] = timestep
 
                 # total steps of MD
-                steps = re.search("run\s+([0-9]+)", line)
+                steps = re.search(r"run\s+([0-9]+)", line)
                 if steps:
                     float(steps.group(1))
                     md = 1
 
                 # save freq to log
-                thermo = re.search("thermo\s+([0-9]+)", line)
+                thermo = re.search(r"thermo\s+([0-9]+)", line)
                 if thermo:
                     float(thermo.group(1))
 
@@ -133,19 +130,16 @@ class LammpsLog:
             return LammpsLog(llog)
 
     def list_properties(self):
-        """
-        print the list of properties
+        """Print the list of properties
         """
         print(self.llog.keys())
 
     # viscosity
     def viscosity(self, cutoff):
-        """
-        cutoff: initial lines ignored during the calculation
+        """cutoff: initial lines ignored during the calculation
         output: returns arrays for the time and the integration which is
                 the viscosity in cP
         """
-
         NCORES = 1
         p = Pool(NCORES)
 

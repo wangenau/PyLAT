@@ -1,5 +1,4 @@
-"""
-Created on Wed May 18 16:05:34 2016
+"""Created on Wed May 18 16:05:34 2016
 
 @author: mhumbert
 

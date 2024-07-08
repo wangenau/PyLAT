@@ -1,5 +1,4 @@
-"""
-Created on Mon Aug  3 10:49:36 2015
+"""Created on Mon Aug  3 10:49:36 2015
 
 @author: mhumbert
 
@@ -48,15 +47,13 @@ class ionpair:
         ver,
         skipframes,
     ):
-        """
-        Calculates the ion pair lifetime for all combinations of molecule types
+        """Calculates the ion pair lifetime for all combinations of molecule types
         in the system. An ion pair for types A and B is defined as the closest
         molecule of type B around a molecule of type A
 
         The integral is fit using multiexponentials from one to five
         exponentials to obtain a good fit without overfitting
         """
-
         output["Ion_Pair_Lifetime"] = {}
         output["Ion_Pair_Lifetime"]["Units"] = "picoseconds"
         output["Ion_Pair_Lifetime"]["Explanation"] = (

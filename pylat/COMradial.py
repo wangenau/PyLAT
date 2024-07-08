@@ -1,5 +1,4 @@
-"""
-PyLAT: Python LAMMPS Analysis Tools
+"""PyLAT: Python LAMMPS Analysis Tools
 Copyright (C) 2018  Michael Humbert, Yong Zhang and Ed Maginn
 
 This program is free software: you can redistribute it and/or modify
@@ -43,9 +42,7 @@ class COMradialdistribution:
         maxr,
         binsize,
     ):
-        """
-
-        This function calculates the radial distribution function between the
+        """This function calculates the radial distribution function between the
         center of mass for all species in the system
 
         """

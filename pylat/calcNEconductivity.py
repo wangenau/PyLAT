@@ -1,5 +1,4 @@
-"""
-Created on Thu May  7 15:06:47 2015
+"""Created on Thu May  7 15:06:47 2015
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -23,8 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class calcNEconductivity:
     def calcNEconductivity(self, output, molcharge, Lx, Ly, Lz, nummoltype, moltypel, T):
-        """
-        This function uses the Nernst-Einstien equation to estimate the ionic
+        """This function uses the Nernst-Einstien equation to estimate the ionic
         conductivity of the system from the diffusivities
 
         """

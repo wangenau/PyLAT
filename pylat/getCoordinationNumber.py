@@ -1,5 +1,4 @@
-"""
-Created on Wed May 27 12:38:04 2015
+"""Created on Wed May 27 12:38:04 2015
 
 @author: mhumbert
 
@@ -29,15 +28,13 @@ from scipy.integrate import cumulative_trapezoid
 
 class getcoordinationnumber:
     def calccoordinationnumber(self, output, nummoltype, moltypel, V):
-        """
-        This function integrates the radial distribution function to obtain the
+        """This function integrates the radial distribution function to obtain the
         coordination number for all molecule types
 
         This code determines the first three minima in the radial distribution
         function and returns the coordination number for these three points.
         The cumulative integral is also returned
         """
-
         output["Coordination_Number"] = {}
         output["Coordination_Number"]["units"] = "Minima in angstroms, Coordination numbers in Angstroms"
         output["Coordination_Number"]["explanation"] = (

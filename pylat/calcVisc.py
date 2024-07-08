@@ -1,5 +1,4 @@
-"""
-Created on Fri Dec 11 09:16:20 2015
+"""Created on Fri Dec 11 09:16:20 2015
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -43,9 +42,7 @@ class calcVisc:
         plot,
         popt2,
     ):
-        """
-
-        Calculates average and standard deviation of the integral of the
+        """Calculates average and standard deviation of the integral of the
         pressure tensor autocorrelation function over numtrj lammps trajectories
 
         """

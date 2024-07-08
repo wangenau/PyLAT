@@ -1,5 +1,4 @@
-"""
-Created on Wed May 27 16:05:33 2015
+"""Created on Wed May 27 16:05:33 2015
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -28,11 +27,9 @@ from scipy import stats
 
 class calcdiffusivity:
     def calcdiffusivity(self, output, moltypel, dt, tol):
-        """
-        This function fits the mean square displacement to calculate the
+        """This function fits the mean square displacement to calculate the
         diffusivity for all molecule types in the system
         """
-
         output["Diffusivity"] = {}
         output["Diffusivity"]["units"] = "m^2/s"
         for i in range(len(moltypel)):

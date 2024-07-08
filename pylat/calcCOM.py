@@ -1,5 +1,4 @@
-"""
-Created on Tue Mar 10 10:07:34 2015
+"""Created on Tue Mar 10 10:07:34 2015
 
 @author: mhumbert
 PyLAT: Python LAMMPS Analysis Tools
@@ -24,13 +23,12 @@ import sys
 
 import numpy as np
 
-import pylat.calccomf as calccomf
+from pylat import calccomf
 
 
 class calcCOM:
     def calcCOM(self, trjfilename, datfilename, ver):
-        """
-        This function will read in the x,y,z positions of all atoms for a
+        """This function will read in the x,y,z positions of all atoms for a
         timestep and then calculate the center of mass for all molecules in the
         system. Returns the x, y and z coordinates of all molecules for all
         timesteps.
@@ -38,7 +36,6 @@ class calcCOM:
         Center of mass coordinates are often used in place of atomic positions
         to minimize the amount of memory required for calculations
         """
-
         (num_lines, n, num_timesteps, count, line) = self.getnum(trjfilename)
         (Lx, Lx2, Ly, Ly2, Lz, Lz2) = self.getdimensions(trjfilename[0])
         (x, y, z, mol, atype) = self.createarrays(n)
