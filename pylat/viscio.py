@@ -78,7 +78,7 @@ class LammpsLog:
         header = 0
         llog = {}
 
-        with open(filename, "r") as logfile:
+        with open(filename) as logfile:
             len(logfile.readlines())
             logfile.seek(0)
 

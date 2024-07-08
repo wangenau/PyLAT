@@ -19,7 +19,6 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import copy
 
 import numpy as np
-from six.moves import range
 
 
 class COMradialdistribution:
@@ -109,14 +108,14 @@ class COMradialdistribution:
 
         # change indeces order to com*[molecule][timestep]
 
-        for i in range(0, len(g)):
+        for i in range(len(g)):
             indexlist.append(np.array(moltype) == i)
             # creates two dimensional array
             # first dimension is molecule type
             # second dimension is over molecules
             # contains boolean for if that molecule is of the molecule type
 
-        for molecule in range(0, nummol - 1):
+        for molecule in range(nummol - 1):
             dx = comxt[molecule + 1 :] - np.tile(comxt[molecule], (len(comxt) - molecule - 1, 1))
             dy = comyt[molecule + 1 :] - np.tile(comyt[molecule], (len(comyt) - molecule - 1, 1))
             dz = comzt[molecule + 1 :] - np.tile(comzt[molecule], (len(comzt) - molecule - 1, 1))
@@ -128,7 +127,7 @@ class COMradialdistribution:
 
             r2 = dx**2 + dy**2 + dz**2
             r = np.sqrt(r2)
-            for i in range(0, len(indexlist)):
+            for i in range(len(indexlist)):
                 gt, dist = np.histogram(
                     r[indexlist[i][molecule + 1 :]].ravel(),
                     bins=numbins,
@@ -144,15 +143,15 @@ class COMradialdistribution:
         # normalizes g to box density
         radiuslist = (np.arange(numbins) + 1) * binsize
         radiuslist = np.around(radiuslist, decimals=1)
-        for i in range(0, len(g)):
-            for j in range(0, len(g)):
+        for i in range(len(g)):
+            for j in range(len(g)):
                 g[i][j] *= (
                     Lx * Ly * Lz / nummol[i] / nummol[j] / 4 / np.pi / (radiuslist) ** 2 / binsize / (count - firststep)
                 )
         return radiuslist
 
     def append_dict(self, radiuslist, g, output, moltypel):
-        for i in range(0, len(moltypel)):
+        for i in range(len(moltypel)):
             for j in range(i, len(moltypel)):
                 if not all([v == 0 for v in g[i][j]]):
                     output["RDF"]["{0}-{1}".format(moltypel[i], moltypel[j])] = copy.deepcopy(g[i][j].tolist())

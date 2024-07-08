@@ -33,10 +33,9 @@ class getatomcharges:
         while foundnumatoms is False:
             line = datfile.readline()
             line = line.split()
-            if len(line) >= 2:
-                if line[1] == "atoms":
-                    n = int(line[0])
-                    foundnumatoms = True
+            if len(line) >= 2 and line[1] == "atoms":
+                n = int(line[0])
+                foundnumatoms = True
         datfile.close()
         return n
 
