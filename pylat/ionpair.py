@@ -61,8 +61,8 @@ class ionpair:
         )
         (closest, begin, end, C) = self.init(len(comx[0]), moltypel, len(comx), moltype)
         for step in range(len(comx)):
-            r = self.calcdistance(comx[step], comy[step], comz[step], Lx, Ly, Lz)
-            closest = self.findclosest(r, closest, begin, end, step)
+            r = calcdistance(len(comx[step]), comx[step], comy[step], comz[step], Lx, Ly, Lz)
+            closest = findclosest(r, closest, begin, end, step)
             if ver:
                 sys.stdout.write("\rIPL distance calculation {:.2f}% complete".format((step + 1) * 100.0 / len(comx)))
 
@@ -109,14 +109,6 @@ class ionpair:
 
         end.append(len(moltype))
         return (closest, begin, end, C)
-
-    def calcdistance(self, comx, comy, comz, Lx, Ly, Lz):
-        # Runs a fortran script calculating the distance between all molecules
-        return calcdistances(len(comx), comx, comy, comz, Lx, Ly, Lz)
-
-    def findclosest(self, r, closest, begin, end, timestep):
-        # Search molecules to find the closest molecules at each timestep
-        return findclosests(r, closest, begin, end, timestep)
 
     def correlation(self, closest, moltype, moltypel, ver, skipframes):
         # Runs a fortran script perfroming the correlation function
@@ -201,7 +193,7 @@ def exponential6(x, A1, A2, A3, A4, A5, A6, B1, B2, B3, B4, B5, B6):
 
 
 @njit
-def calcdistances(nummol, comx, comy, comz, Lx, Ly, Lz):
+def calcdistance(nummol, comx, comy, comz, Lx, Ly, Lz):
     r = np.zeros((nummol, nummol))
     for i in range(nummol - 1):
         for j in range(i + 1, nummol):
@@ -217,7 +209,7 @@ def calcdistances(nummol, comx, comy, comz, Lx, Ly, Lz):
 
 
 @njit
-def findclosests(r, closest, begin, end, timestep):
+def findclosest(r, closest, begin, end, timestep):
     for i in range(len(r)):
         for j in range(len(begin)):
             distance = 10000
