@@ -64,9 +64,7 @@ class calcCOM:
                     i,
                 )
                 if count == 0:
-                    (nummol, comx, comy, comz, molmass) = self.comprep(
-                        mol, n, atype, atommass, num_timesteps
-                    )
+                    (nummol, comx, comy, comz, molmass) = self.comprep(mol, n, atype, atommass, num_timesteps)
                 (comx, comy, comz, count) = self.calccom(
                     comx,
                     comy,
@@ -89,9 +87,7 @@ class calcCOM:
                     nummol,
                 )
                 if ver:
-                    sys.stdout.write(
-                        "\rCOM calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
-                    )
+                    sys.stdout.write("\rCOM calculation {:.2f}% complete".format(count * 100.0 / num_timesteps))
             trjfile.close()
         if ver:
             sys.stdout.write("\n")
@@ -268,9 +264,7 @@ class calcCOM:
             amass[i] = atommass[atype[i]]
 
         # Calls a fortran code to increase the efficiency of the calculations
-        (comxt, comyt, comzt) = calccomf.calccom(
-            n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2
-        )
+        (comxt, comyt, comzt) = calccomf.calccom(n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2)
         comx[count] += comxt
         comy[count] += comyt
         comz[count] += comzt

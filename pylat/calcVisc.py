@@ -81,17 +81,13 @@ class calcVisc:
         fv = fitVisc()
         # random.seed(123456789)
         for i in range(0, numboot):
-            Values.append(
-                self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2)
-            )
+            Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2))
             if ver > 1:
                 sys.stdout.write("\rViscosity Bootstrap {} of {} complete".format(i + 1, numboot))
         if ver > 1:
             sys.stdout.write("\n")
 
-        (ave, stddev, Values) = self.getAverage(
-            Values, numsamples, trjlen, numtrj, viscosity, Time, fv
-        )
+        (ave, stddev, Values) = self.getAverage(Values, numsamples, trjlen, numtrj, viscosity, Time, fv)
 
         output["Viscosity"]["Average Value"] = ave
         output["Viscosity"]["Standard Deviation"] = stddev

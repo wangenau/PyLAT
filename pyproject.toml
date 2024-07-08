@@ -18,4 +18,4 @@ exclude = ["examples*"]
 script-files = ["scripts/PyLAT", "scripts/PyLATplot"]
 
 [tool.ruff]
-line-length = 100
+line-length = 120

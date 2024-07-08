@@ -42,17 +42,13 @@ class calcDielectricConstant:
         for i in range(0, len(trjfilename)):
             trjfile = open(trjfilename[i])
             while line[i] < num_lines[i]:
-                (x, y, z, mol, line) = self.readdata(
-                    trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i
-                )
+                (x, y, z, mol, line) = self.readdata(trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i)
                 (x, y, z) = unwrap(x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2)
                 (Mx[count], My[count], Mz[count]) = self.calcdipolemoment(x, y, z, atomcharges)
                 count += 1
                 if ver > 1:
                     sys.stdout.write(
-                        "\rdipole moment calculation {:.2f}% complete".format(
-                            count * 100.0 / num_timesteps
-                        )
+                        "\rdipole moment calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
                     )
         if ver > 1:
             sys.stdout.write("\n")
@@ -170,9 +166,7 @@ class calcDielectricConstant:
         # Calculates the cumulative average dipole moment and dipole moment squared for fluctuation calculations
         normarray = np.arange(1, len(Mx) - start + 1)
         AveM2 = np.cumsum(Mx[start:] ** 2 + My[start:] ** 2 + Mz[start:] ** 2) / normarray
-        AveM = (
-            np.cumsum(Mx[start:]) ** 2 + np.cumsum(My[start:]) ** 2 + np.cumsum(Mz[start:]) ** 2
-        ) / normarray**2
+        AveM = (np.cumsum(Mx[start:]) ** 2 + np.cumsum(My[start:]) ** 2 + np.cumsum(Mz[start:]) ** 2) / normarray**2
         return (AveM2, AveM)
 
     def calcdielectric(self, AveM2, AveM, V, T):

@@ -81,9 +81,7 @@ class distSearch:
                     idcol,
                 )
                 if count == 0:
-                    (nummol, comx, comy, comz, molmass) = self.comprep(
-                        mol, n, atype, atommass, num_timesteps
-                    )
+                    (nummol, comx, comy, comz, molmass) = self.comprep(mol, n, atype, atommass, num_timesteps)
                     molid = self.molID(mol, aid, moltype)
                 (comx, comy, comz, count) = self.calccom(
                     comx,
@@ -312,9 +310,7 @@ class distSearch:
         for i in range(0, n):
             amass[i] = atommass[atype[i]]
 
-        (comxt, comyt, comzt) = calccomf.calccom(
-            n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2
-        )
+        (comxt, comyt, comzt) = calccomf.calccom(n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2)
         comx = np.array(comxt)
         comy = np.array(comyt)
         comz = np.array(comzt)
@@ -373,17 +369,9 @@ class distSearch:
                         molid[indid[j]].sort()
                         print("Sample {} Found".format(numFound))
                         output["Distance_Search"]["Sample_{}".format(numFound)] = {}
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["Distance"] = float(
-                            r[j]
-                        )
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["Frame"] = int(
-                            frame
-                        )
-                        output["Distance_Search"]["Sample_{}".format(numFound)][
-                            "Molecule_1_IDs"
-                        ] = molid[i]
-                        output["Distance_Search"]["Sample_{}".format(numFound)][
-                            "molecule_2_IDs"
-                        ] = molid[indid[j]]
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["Distance"] = float(r[j])
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["Frame"] = int(frame)
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["Molecule_1_IDs"] = molid[i]
+                        output["Distance_Search"]["Sample_{}".format(numFound)]["molecule_2_IDs"] = molid[indid[j]]
 
         return (numFound, output)

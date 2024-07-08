@@ -16,9 +16,7 @@ for num in filelist:
     for line in range(0, len(samplefile)):
         if line == 31:
             output.write(
-                "velocity        all create  ${{mytemp}} {0} units box \n".format(
-                    random.randint(1, 999999999)
-                )
+                "velocity        all create  ${{mytemp}} {0} units box \n".format(random.randint(1, 999999999))
             )
         else:
             output.write(samplefile[line])

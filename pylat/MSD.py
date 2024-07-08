@@ -61,18 +61,14 @@ class MSD:
         if ver > 0:
             print("unwrap complete")
         num_timesteps = len(comx)
-        (num_init, len_MSD, MSD, diffusivity) = self.gettimesteps(
-            num_timesteps, moltypel, skip, num_init
-        )
+        (num_init, len_MSD, MSD, diffusivity) = self.gettimesteps(num_timesteps, moltypel, skip, num_init)
         (molcheck, nummol) = self.setmolarray(moltype, moltypel)
         for i in range(skip, num_init + skip):
             for j in range(i, i + len_MSD):
                 r2 = calcr2(comx, comy, comz, i, j)
                 MSD = MSDadd(r2, MSD, molcheck, i, j)
             if ver:
-                sys.stdout.write(
-                    "\rMSD calculation {:.2f}% complete".format((i + 1 - skip) * 100.0 / num_init)
-                )
+                sys.stdout.write("\rMSD calculation {:.2f}% complete".format((i + 1 - skip) * 100.0 / num_init))
         if ver:
             sys.stdout.write("\n")
         MSD = self.MSDnorm(MSD, num_init, nummol)

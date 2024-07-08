@@ -108,9 +108,7 @@ class calcCond:
                 (jx, jy, jz, count) = self.calcj(dotlist, comvx, comvy, comvz, jx, jy, jz, count)
                 if ver == 2:
                     sys.stdout.write(
-                        "\rCOM velocity calculation {:.2f}% complete".format(
-                            count * 100.0 / num_timesteps
-                        )
+                        "\rCOM velocity calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
                     )
         if ver == 2:
             sys.stdout.write("\n")
@@ -271,9 +269,7 @@ class calcCond:
                 counter += 1
                 if ver == 2:
                     sys.stdout.write(
-                        "\rGK conductivity correlation {0}% complete".format(
-                            100.0 * float(counter) / len(jx) ** 2
-                        )
+                        "\rGK conductivity correlation {0}% complete".format(100.0 * float(counter) / len(jx) ** 2)
                     )
         if ver == 2:
             sys.stdout.write("\n")

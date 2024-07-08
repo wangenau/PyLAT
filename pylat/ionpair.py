@@ -67,11 +67,7 @@ class ionpair:
             r = self.calcdistance(comx[step], comy[step], comz[step], Lx, Ly, Lz)
             closest = self.findclosest(r, closest, begin, end, step)
             if ver:
-                sys.stdout.write(
-                    "\rIPL distance calculation {:.2f}% complete".format(
-                        (step + 1) * 100.0 / len(comx)
-                    )
-                )
+                sys.stdout.write("\rIPL distance calculation {:.2f}% complete".format((step + 1) * 100.0 / len(comx)))
 
         if ver:
             sys.stdout.write("\n")
@@ -96,15 +92,11 @@ class ionpair:
                     if end == 0:
                         end = len(y)
                     (IPL, r2) = self.curvefit(y, time, begin, end)
-                    output["Ion_Pair_Lifetime"][
-                        "{0} around {1}".format(moltypel[j], moltypel[i])
-                    ] = IPL
-                    output["Ion_Pair_Lifetime"][
-                        "{0} around {1} r2".format(moltypel[j], moltypel[i])
-                    ] = r2
-                    output["Ion_Pair_Lifetime"][
-                        "{0} around {1} correlation".format(moltypel[j], moltypel[i])
-                    ] = copy.deepcopy(y)
+                    output["Ion_Pair_Lifetime"]["{0} around {1}".format(moltypel[j], moltypel[i])] = IPL
+                    output["Ion_Pair_Lifetime"]["{0} around {1} r2".format(moltypel[j], moltypel[i])] = r2
+                    output["Ion_Pair_Lifetime"]["{0} around {1} correlation".format(moltypel[j], moltypel[i])] = (
+                        copy.deepcopy(y)
+                    )
         output["Ion_Pair_Lifetime"]["Correlation_Time"] = copy.deepcopy(time)
 
     def init(self, nummol, moltypel, numtimesteps, moltype):
@@ -158,9 +150,7 @@ class ionpair:
         with warnings.catch_warnings():
             warnings.simplefilter("ignore")
             for fun in funlist:
-                popt, pcov = curve_fit(
-                    fun, time[begin:end], correlation[begin:end], maxfev=100000000
-                )
+                popt, pcov = curve_fit(fun, time[begin:end], correlation[begin:end], maxfev=100000000)
                 fit = []
                 for i in time:
                     fit.append(fun(i, *popt))
@@ -200,11 +190,7 @@ def exponential4(x, A1, A2, A3, A4, B1, B2, B3, B4):
 @njit
 def exponential5(x, A1, A2, A3, A4, A5, B1, B2, B3, B4, B5):
     return (
-        A1 * np.exp(-x / B1)
-        + A2 * np.exp(-x / B2)
-        + A3 * np.exp(-x / B3)
-        + A4 * np.exp(-x / B4)
-        + A5 * np.exp(-x / B5)
+        A1 * np.exp(-x / B1) + A2 * np.exp(-x / B2) + A3 * np.exp(-x / B3) + A4 * np.exp(-x / B4) + A5 * np.exp(-x / B5)
     )
 
 

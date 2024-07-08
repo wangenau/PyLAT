@@ -91,9 +91,7 @@ class fitVisc:
 
 @njit
 def doubexp(x, A, alpha, tau1, tau2):
-    return A * alpha * tau1 * (1 - np.exp(-x / tau1)) + A * (1 - alpha) * tau2 * (
-        1 - np.exp(-x / tau2)
-    )
+    return A * alpha * tau1 * (1 - np.exp(-x / tau1)) + A * (1 - alpha) * tau2 * (1 - np.exp(-x / tau2))
 
 
 @njit

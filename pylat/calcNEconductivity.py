@@ -42,9 +42,7 @@ class calcNEconductivity:
                     return output
                 N = int(nummoltype[i])
                 NEcond += N * q**2 * D
-                output["Conductivity"]["Nernst_Einstein_{0}".format(moltypel[i])] = (
-                    N * q**2 * D * e**2 / k / T / V
-                )
+                output["Conductivity"]["Nernst_Einstein_{0}".format(moltypel[i])] = N * q**2 * D * e**2 / k / T / V
         NEcond *= e**2 / k / T / V
 
         output["Conductivity"]["Nernst_Einstein"] = NEcond

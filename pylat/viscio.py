@@ -57,7 +57,9 @@ class LammpsLog:
                 Dictionary of averages, will be generated automatically if unspecified
         """
 
-        self.llog = llog  # Dictionary LOG has all the output property data as numpy 1D arrays with the property name as the key
+        self.llog = (
+            llog  # Dictionary LOG has all the output property data as numpy 1D arrays with the property name as the key
+        )
 
         if avgs:
             self.avgs = avgs  # Dictionary of averages for storage / query
@@ -103,11 +105,7 @@ class LammpsLog:
                 if format:
                     data_format = format.group().split()[2:]
 
-                if (
-                    all(isinstance(x, float) for x in list(_list2float(line.split())))
-                    and md == 1
-                    and len(line) >= 3
-                ):
+                if all(isinstance(x, float) for x in list(_list2float(line.split()))) and md == 1 and len(line) >= 3:
                     break
 
                 header += 1
@@ -115,10 +113,7 @@ class LammpsLog:
             # note: we are starting from the "break" above
             raw_data = []
             for line in logfile:
-                if (
-                    all(isinstance(x, float) for x in list(_list2float(line.split())))
-                    and len(line) >= 3
-                ):
+                if all(isinstance(x, float) for x in list(_list2float(line.split()))) and len(line) >= 3:
                     raw_data.append(line.split())
                 else:
                     break

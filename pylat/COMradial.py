@@ -68,9 +68,7 @@ class COMradialdistribution:
             maxr,
             count,
         )
-        (radiuslist) = self.radialnormalization(
-            numbins, binsize, Lx, Ly, Lz, nummoltype, count, g, firststep
-        )
+        (radiuslist) = self.radialnormalization(numbins, binsize, Lx, Ly, Lz, nummoltype, count, g, firststep)
         self.append_dict(radiuslist, g, output, moltypel)
         return output
 
@@ -149,16 +147,7 @@ class COMradialdistribution:
         for i in range(0, len(g)):
             for j in range(0, len(g)):
                 g[i][j] *= (
-                    Lx
-                    * Ly
-                    * Lz
-                    / nummol[i]
-                    / nummol[j]
-                    / 4
-                    / np.pi
-                    / (radiuslist) ** 2
-                    / binsize
-                    / (count - firststep)
+                    Lx * Ly * Lz / nummol[i] / nummol[j] / 4 / np.pi / (radiuslist) ** 2 / binsize / (count - firststep)
                 )
         return radiuslist
 
@@ -166,8 +155,6 @@ class COMradialdistribution:
         for i in range(0, len(moltypel)):
             for j in range(i, len(moltypel)):
                 if not all([v == 0 for v in g[i][j]]):
-                    output["RDF"]["{0}-{1}".format(moltypel[i], moltypel[j])] = copy.deepcopy(
-                        g[i][j].tolist()
-                    )
+                    output["RDF"]["{0}-{1}".format(moltypel[i], moltypel[j])] = copy.deepcopy(g[i][j].tolist())
         if "distance" not in list(output["RDF"].keys()):
             output["RDF"]["distance"] = copy.deepcopy(radiuslist.tolist())
