@@ -68,8 +68,7 @@ class LammpsLog:
 
     @classmethod
     def from_file(cls, filename):
-        """Parses the log file.
-        """
+        """Parses the log file."""
         md = 0  # To avoid reading the minimization data steps
         header = 0
         llog = {}
@@ -129,8 +128,7 @@ class LammpsLog:
             return LammpsLog(llog)
 
     def list_properties(self):
-        """Print the list of properties
-        """
+        """Print the list of properties"""
         print(self.llog.keys())
 
     # viscosity
