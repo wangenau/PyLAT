@@ -123,8 +123,7 @@ class MSD:
 @njit
 def calcr2(comx, comy, comz, i, j):
     # Calculates distance molecule has traveled between steps i and j
-    r2 = (comx[j] - comx[i]) ** 2 + (comy[j] - comy[i]) ** 2 + (comz[j] - comz[i]) ** 2
-    return r2
+    return (comx[j] - comx[i]) ** 2 + (comy[j] - comy[i]) ** 2 + (comz[j] - comz[i]) ** 2
 
 
 @njit

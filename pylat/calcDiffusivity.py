@@ -49,8 +49,7 @@ class calcdiffusivity:
         numskip = 1
         while linearregion is True:
             if numskip * timestepskip + 1 > maxtime:
-                firststep = maxtime - 1 - (numskip - 1) * timestepskip
-                return firststep
+                return maxtime - 1 - (numskip - 1) * timestepskip
                 linearregion = False
             else:
                 t1 = int(maxtime - 1 - (numskip - 1) * timestepskip)
@@ -59,8 +58,7 @@ class calcdiffusivity:
                 if abs(slope - 1.0) < tol:
                     numskip += 1
                 else:
-                    firststep = t1
-                    return firststep
+                    return t1
                     linearregion = False
 
     def getdiffusivity(self, Time, MSD, firststep):

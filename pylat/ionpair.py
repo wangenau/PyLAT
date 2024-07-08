@@ -112,17 +112,15 @@ class ionpair:
 
     def calcdistance(self, comx, comy, comz, Lx, Ly, Lz):
         # Runs a fortran script calculating the distance between all molecules
-        r = calcdistances(len(comx), comx, comy, comz, Lx, Ly, Lz)
-        return r
+        return calcdistances(len(comx), comx, comy, comz, Lx, Ly, Lz)
 
     def findclosest(self, r, closest, begin, end, timestep):
         # Search molecules to find the closest molecules at each timestep
-        closest = findclosests(r, closest, begin, end, timestep)
-        return closest
+        return findclosests(r, closest, begin, end, timestep)
 
     def correlation(self, closest, moltype, moltypel, ver, skipframes):
         # Runs a fortran script perfroming the correlation function
-        correlation = ipcorr(
+        return ipcorr(
             closest,
             skipframes,
             len(closest),
@@ -131,7 +129,6 @@ class ionpair:
             int((len(closest) - skipframes) / 2),
             moltype,
         )
-        return correlation
 
     def curvefit(self, correlation, time, begin, end):
         # Fit the exponential functions to the correlation function to estimate the ion pair lifetime

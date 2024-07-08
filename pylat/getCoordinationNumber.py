@@ -100,8 +100,7 @@ class getcoordinationnumber:
         for i in range(len(g)):
             integrallist.append(g[i] * nummoltype[moltypel.index(mol)] / V * 4 * np.pi * r[i] ** 2)
         integral = cumulative_trapezoid(integrallist, x=r)
-        integral = integral.tolist()
-        return integral
+        return integral.tolist()
 
     def getvolume(self, trjfilename):
         # calculates the volume of the system (assumes NVT or NVE ensemble)

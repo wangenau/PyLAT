@@ -173,8 +173,7 @@ class calcDielectricConstant:
         AveM2 *= 1e-20 * 1.6022e-19**2  # correct units
         AveM *= 1e-20 * 1.6022e-19**2
         V *= 1e-30
-        dielectric = (1 + 1 / 3.0 / epsilon0 / V / kb / T * (AveM2 - AveM)).tolist()
-        return dielectric
+        return (1 + 1 / 3.0 / epsilon0 / V / kb / T * (AveM2 - AveM)).tolist()
 
     def getvolume(self, trjfilename):
         # Calculates volume of the system

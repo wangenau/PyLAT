@@ -133,8 +133,7 @@ class COMradialdistribution:
                 g[moltype[molecule]][i] += gt
                 g[i][moltype[molecule]] += gt
 
-        count = len(comx)
-        return count
+        return len(comx)
 
     def radialnormalization(self, numbins, binsize, Lx, Ly, Lz, nummol, count, g, firststep):
         # normalizes g to box density

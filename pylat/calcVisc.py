@@ -109,5 +109,4 @@ class calcVisc:
         for j in range(trjlen):
             average[j] = np.average(Bootlist.transpose()[j])
             stddev[j] = np.std(Bootlist.transpose()[j])
-        Value = fv.fitvisc(Time, average, stddev, plot, popt2)
-        return Value
+        return fv.fitvisc(Time, average, stddev, plot, popt2)

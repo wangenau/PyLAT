@@ -281,15 +281,13 @@ class calcCond:
 
     def fitcurve(self, time, integral, begin, end):
         # calculates average value of the integral over the range begin:end
-        ave = np.average(integral[begin:end])
-        return ave
+        return np.average(integral[begin:end])
 
     def greenkubo(self, ave, T, V):
         # normalizes the average value of the integral to obtain the conductivity
         k = 1.38e-23
         el = 1.60217e-19
-        cond = ave / 3 / k / T / V * el**2 / 10**5
-        return cond
+        return ave / 3 / k / T / V * el**2 / 10**5
 
     def COMprep(self, mol, atype, atommass, n, num_timesteps, moltypel):
         # creates arrays to prepare for center of mass velocity calculations
