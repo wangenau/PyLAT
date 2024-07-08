@@ -44,13 +44,11 @@ class calcdiffusivity:
     def findlinearregion(self, lnMSD, lntime, dt, tol):
         # Uses the slope of the log-log plot to find linear regoin of MSD
         timestepskip = np.ceil(500 / dt)
-        linearregion = True
         maxtime = len(lnMSD)
         numskip = 1
-        while linearregion is True:
+        while True:
             if numskip * timestepskip + 1 > maxtime:
                 return maxtime - 1 - (numskip - 1) * timestepskip
-                linearregion = False
             else:
                 t1 = int(maxtime - 1 - (numskip - 1) * timestepskip)
                 t2 = int(maxtime - 1 - numskip * timestepskip)
@@ -59,7 +57,6 @@ class calcdiffusivity:
                     numskip += 1
                 else:
                     return t1
-                    linearregion = False
 
     def getdiffusivity(self, Time, MSD, firststep):
         # Fits the linear region of the MSD to obtain the diffusivity
