@@ -3,15 +3,15 @@
 This is a fork of the repository for the Python LAMMPS Analysis Tools.
 
 Notable changes are:
-    * Compatible with modern Python, NumPy, and SciPy versions
-    * Easily installable with pip
-    * Removed Fortran code by using Numba
-    * Many performance improvements by using Numba
-        * For a small test calculation this rewrite is about 5 times faster for the `runionpair` function
-    * Improved accuracy by using float64 (the old Fortran functions used float32)
-    * Made PyLAT a proper script, same for plot (renamed to PyLATplot)
-    * Added Nix developer flake
-    * A lot of linting, formatting, and cleanups
+* Compatible with modern Python, NumPy, and SciPy versions
+* Easily installable with pip
+* Removed Fortran code by using Numba
+* Many performance improvements by using Numba
+    * For a small test calculation this rewrite is about 5 times faster for the `runionpair` function
+* Improved accuracy by using float64 (the old Fortran functions used float32)
+* Made PyLAT a proper script, same for plot (renamed to PyLATplot)
+* Added Nix developer flake
+* A lot of linting, formatting, and cleanups
 
 The following information can be accessed by running the command "PyLAT -h"
 
