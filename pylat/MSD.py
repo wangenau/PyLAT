@@ -61,9 +61,7 @@ class MSD:
         (num_init, len_MSD, MSD, diffusivity) = self.gettimesteps(num_timesteps, moltypel, skip, num_init)
         (molcheck, nummol) = self.setmolarray(moltype, moltypel)
         for i in range(skip, num_init + skip):
-            for j in range(i, i + len_MSD):
-                r2 = calcr2(comx, comy, comz, i, j)
-                MSD = MSDadd(r2, MSD, molcheck, i, j)
+            MSD = calcMSD(comx, comy, comz, i, len_MSD, MSD, molcheck)
             if ver:
                 sys.stdout.write("\rMSD calculation {:.2f}% complete".format((i + 1 - skip) * 100.0 / num_init))
         if ver:
@@ -121,17 +119,11 @@ class MSD:
 
 
 @njit
-def calcr2(comx, comy, comz, i, j):
-    # Calculates distance molecule has traveled between steps i and j
-    return (comx[j] - comx[i]) ** 2 + (comy[j] - comy[i]) ** 2 + (comz[j] - comz[i]) ** 2
-
-
-@njit
-def MSDadd(r2, MSD, molcheck, i, j):
-    # Uses dot product to calculate average MSD for a molecule type
-    for k in range(len(molcheck)):
-        sr2 = np.dot(r2, molcheck[k])
-        MSD[k][j - i] += sr2
+def calcMSD(comx, comy, comz, i, len_MSD, MSD, molcheck):
+    for j in range(i, i + len_MSD):
+        r2 = (comx[j] - comx[i]) ** 2 + (comy[j] - comy[i]) ** 2 + (comz[j] - comz[i]) ** 2
+        for k in range(len(molcheck)):
+            MSD[k][j - i] += np.dot(r2, molcheck[k])
     return MSD
 
 
