@@ -26,8 +26,7 @@ from scipy import optimize
 
 
 class fitVisc:
-    def fitvisc(self, time, visc, stddev, plot, popt2):
-
+    def fitvisc(self, time, visc, stddev, plot, popt2, i):
         # Makre sure our time scale starts at zero for the fit
         time = time - 2 * time[0] + time[1]
 
@@ -87,7 +86,10 @@ class fitVisc:
             plt.ylabel("Viscosity (mPa*s)")
             plt.xlabel("Time (ns)")
             plt.legend()
-            plt.show()
+            if isinstance(plot, str):
+                plt.savefig("{}/viscosity_{}.png".format(plot, i + 1))
+            else:
+                plt.show()
 
         return Value
 
