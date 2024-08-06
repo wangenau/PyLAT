@@ -90,7 +90,7 @@ class fitVisc:
                 plt.savefig("{}/viscosity_{}.png".format(plot, i + 1))
             else:
                 plt.show()
-
+            plt.close()
         return Value
 
 
