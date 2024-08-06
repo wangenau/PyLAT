@@ -27,6 +27,10 @@ from scipy import optimize
 
 class fitVisc:
     def fitvisc(self, time, visc, stddev, plot, popt2):
+
+        # Makre sure our time scale starts at zero for the fit
+        time = time - 2 * time[0] + time[1]
+
         foundcutoff = False
         foundstart = False
         start = 1
