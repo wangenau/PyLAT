@@ -46,11 +46,19 @@ class calcVisc:
         pressure tensor autocorrelation function over numtrj lammps trajectories
 
         """
+        folders = None
+        if isinstance(numtrj, (list, tuple)):
+            folders = numtrj
+            numtrj = len(folders)
+
         output["Viscosity"] = {}
         output["Viscosity"]["Units"] = "cP"
         if dirbase is None:
             dirbase = "./"
-        filename = dirbase + "1/" + logname
+        if folders is None:
+            filename = dirbase + "1/" + logname
+        else:
+            filename = dirbase + str(folders[0]) + "/" + logname
         Log = LammpsLog.from_file(filename)
         (Time, visco) = Log.viscosity(numskip)
         trjlen = len(Time)
@@ -61,7 +69,10 @@ class calcVisc:
             sys.stdout.write("Viscosity Trajectory 1 of {} complete".format(numtrj))
 
         for i in range(2, numtrj + 1):
-            filename = dirbase + str(i) + "/" + logname
+            if folders is None:
+                filename = dirbase + str(i) + "/" + logname
+            else:
+                filename = dirbase + str(folders[i - 1]) + "/" + logname
             Log = LammpsLog.from_file(filename)
             (Time, visco) = Log.viscosity(numskip)
             if len(visco) < trjlen:
