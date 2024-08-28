@@ -41,7 +41,7 @@ class calcDielectricConstant:
             while line[i] < num_lines[i]:
                 (x, y, z, mol, line) = self.readdata(trjfile, n, line, x, y, z, mol, xcol, ycol, zcol, molcol, idcol, i)
                 (x, y, z) = unwrap(x, y, z, mol, Lx, Lx2, Ly, Ly2, Lz, Lz2)
-                (Mx[count], My[count], Mz[count]) = self.calcdipolemoment(x, y, z, atomcharges)
+                (Mx[count], My[count], Mz[count]) = calcdipolemoment(x, y, z, atomcharges)
                 count += 1
                 if ver > 1:
                     sys.stdout.write(
@@ -152,13 +152,6 @@ class calcDielectricConstant:
         line[i] += n + 9
         return (x, y, z, mol, line)
 
-    def calcdipolemoment(self, x, y, z, atomcharges):
-        # calculates the dipole moment for a given timestep
-        mx = np.dot(x, atomcharges)
-        my = np.dot(y, atomcharges)
-        mz = np.dot(z, atomcharges)
-        return (mx, my, mz)
-
     def calcaverage(self, Mx, My, Mz, start):
         # Calculates the cumulative average dipole moment and dipole moment squared for fluctuation calculations
         normarray = np.arange(1, len(Mx) - start + 1)
@@ -175,23 +168,14 @@ class calcDielectricConstant:
         V *= 1e-30
         return (1 + 1 / 3.0 / epsilon0 / V / kb / T * (AveM2 - AveM)).tolist()
 
-    def getvolume(self, trjfilename):
-        # Calculates volume of the system
-        trjfile = open(trjfilename)
-        for i in range(5):
-            trjfile.readline()
-        xbounds = trjfile.readline()
-        xbounds = xbounds.split()
-        ybounds = trjfile.readline()
-        ybounds = ybounds.split()
-        zbounds = trjfile.readline()
-        zbounds = zbounds.split()
-        Lx = float(xbounds[1]) - float(xbounds[0])
-        Ly = float(ybounds[1]) - float(ybounds[0])
-        Lz = float(zbounds[1]) - float(zbounds[0])
-        trjfile.close()
-        V = Lx * Ly * Lz
-        return (V, Lx, Ly, Lz)
+
+@njit
+def calcdipolemoment(x, y, z, atomcharges):
+    # calculates the dipole moment for a given timestep
+    mx = np.dot(x, atomcharges)
+    my = np.dot(y, atomcharges)
+    mz = np.dot(z, atomcharges)
+    return (mx, my, mz)
 
 
 @njit
