@@ -76,7 +76,7 @@ class calcdiffusivity:
         return diffusivity
 
     def writeLogLog(self, lnMSD, lntime, moltype):
-        outfile = open("LogLog{}.dat".format(moltype), "w")
+        outfile = open(f"LogLog{moltype}.dat", "w")
         for i in range(len(lnMSD)):
-            outfile.write("{}\t{}\n".format(lntime[i], lnMSD[i]))
+            outfile.write(f"{lntime[i]}\t{lnMSD[i]}\n")
         outfile.close()

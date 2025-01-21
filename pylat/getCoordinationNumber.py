@@ -50,27 +50,27 @@ class getcoordinationnumber:
             mol1 = split[0]
             mol2 = split[1]
             (minima, index) = self.findfirst3minima(g, r)
-            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)] = {}
+            output["Coordination_Number"][f"{mol1} around {mol2}"] = {}
             integral = self.integrate(g, r, nummoltype, moltypel, V, mol1)
-            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Cumulative_Integral"] = copy.deepcopy(
+            output["Coordination_Number"][f"{mol1} around {mol2}"]["Cumulative_Integral"] = copy.deepcopy(
                 integral
             )
-            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Minima"] = minima
+            output["Coordination_Number"][f"{mol1} around {mol2}"]["Minima"] = minima
             coord = []
             for j in range(len(minima)):
                 coord.append(integral[index[j]])
-            output["Coordination_Number"]["{0} around {1}".format(mol1, mol2)]["Coordination_Numbers"] = coord
+            output["Coordination_Number"][f"{mol1} around {mol2}"]["Coordination_Numbers"] = coord
             if mol2 != mol1:
-                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)] = {}
+                output["Coordination_Number"][f"{mol2} around {mol1}"] = {}
                 integral = self.integrate(g, r, nummoltype, moltypel, V, mol2)
-                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Cumulative_Integral"] = (
+                output["Coordination_Number"][f"{mol2} around {mol1}"]["Cumulative_Integral"] = (
                     copy.deepcopy(integral)
                 )
-                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Minima"] = minima
+                output["Coordination_Number"][f"{mol2} around {mol1}"]["Minima"] = minima
                 coord = []
                 for j in range(len(minima)):
                     coord.append(integral[index[j]])
-                output["Coordination_Number"]["{0} around {1}".format(mol2, mol1)]["Coordination_Numbers"] = coord
+                output["Coordination_Number"][f"{mol2} around {mol1}"]["Coordination_Numbers"] = coord
         return output
 
     def findfirst3minima(self, g, r):

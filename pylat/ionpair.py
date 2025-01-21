@@ -64,7 +64,7 @@ class ionpair:
             r = calcdistance(len(comx[step]), comx[step], comy[step], comz[step], Lx, Ly, Lz)
             closest = findclosest(r, closest, begin, end, step)
             if ver:
-                sys.stdout.write("\rIPL distance calculation {:.2f}% complete".format((step + 1) * 100.0 / len(comx)))
+                sys.stdout.write(f"\rIPL distance calculation {(step + 1) * 100.0 / len(comx):.2f}% complete")
 
         if ver:
             sys.stdout.write("\n")
@@ -89,9 +89,9 @@ class ionpair:
                     if end == 0:
                         end = len(y)
                     (IPL, r2) = self.curvefit(y, time, begin, end)
-                    output["Ion_Pair_Lifetime"]["{0} around {1}".format(moltypel[j], moltypel[i])] = IPL
-                    output["Ion_Pair_Lifetime"]["{0} around {1} r2".format(moltypel[j], moltypel[i])] = r2
-                    output["Ion_Pair_Lifetime"]["{0} around {1} correlation".format(moltypel[j], moltypel[i])] = (
+                    output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]}"] = IPL
+                    output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]} r2"] = r2
+                    output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]} correlation"] = (
                         copy.deepcopy(y)
                     )
         output["Ion_Pair_Lifetime"]["Correlation_Time"] = copy.deepcopy(time)

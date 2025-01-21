@@ -9,14 +9,14 @@ import random
 samplefile = open("test_1/in.visc").readlines()
 filelist = range(2, 51)
 for num in filelist:
-    os.system("mkdir test_{0}".format(num))
-    output = open("test_{0}/in.visc".format(num), "w")
+    os.system(f"mkdir test_{num}")
+    output = open(f"test_{num}/in.visc", "w")
     for line in range(len(samplefile)):
         if line == 31:
             output.write(
-                "velocity        all create  ${{mytemp}} {0} units box \n".format(random.randint(1, 999999999))
+                f"velocity        all create  ${{mytemp}} {random.randint(1, 999999999)} units box \n"
             )
         else:
             output.write(samplefile[line])
     output.close()
-    os.system("cp test_1/mol.data test_{0}/".format(num))
+    os.system(f"cp test_1/mol.data test_{num}/")

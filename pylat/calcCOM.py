@@ -84,7 +84,7 @@ class calcCOM:
                     nummol,
                 )
                 if ver:
-                    sys.stdout.write("\rCOM calculation {:.2f}% complete".format(count * 100.0 / num_timesteps))
+                    sys.stdout.write(f"\rCOM calculation {count * 100.0 / num_timesteps:.2f}% complete")
             trjfile.close()
         if ver:
             sys.stdout.write("\n")

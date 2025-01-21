@@ -45,7 +45,7 @@ class calcDielectricConstant:
                 count += 1
                 if ver > 1:
                     sys.stdout.write(
-                        "\rdipole moment calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
+                        f"\rdipole moment calculation {count * 100.0 / num_timesteps:.2f}% complete"
                     )
         if ver > 1:
             sys.stdout.write("\n")

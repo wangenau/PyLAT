@@ -105,7 +105,7 @@ class calcCond:
                 (jx, jy, jz, count) = self.calcj(dotlist, comvx, comvy, comvz, jx, jy, jz, count)
                 if ver == 2:
                     sys.stdout.write(
-                        "\rCOM velocity calculation {:.2f}% complete".format(count * 100.0 / num_timesteps)
+                        f"\rCOM velocity calculation {count * 100.0 / num_timesteps:.2f}% complete"
                     )
         if ver == 2:
             sys.stdout.write("\n")
@@ -133,10 +133,10 @@ class calcCond:
         output["Conductivity"]["GK_Integral"] = a
         output["Conductivity"]["Time"] = time
         for i in range(1, len(cond)):
-            output["Conductivity"]["Green_Kubo_{0}".format(moltypel[i - 1])] = cond[i]
+            output["Conductivity"][f"Green_Kubo_{moltypel[i - 1]}"] = cond[i]
             a = GKintegral[i]
             a = a.tolist()
-            output["Conductivity"]["GK_Integral_{0}".format(moltypel[i - 1])] = a
+            output["Conductivity"][f"GK_Integral_{moltypel[i - 1]}"] = a
         return output
 
     def getdimensions(self, trjfilename):
@@ -266,7 +266,7 @@ class calcCond:
                 counter += 1
                 if ver == 2:
                     sys.stdout.write(
-                        "\rGK conductivity correlation {0}% complete".format(100.0 * float(counter) / len(jx) ** 2)
+                        f"\rGK conductivity correlation {100.0 * float(counter) / len(jx) ** 2}% complete"
                     )
         if ver == 2:
             sys.stdout.write("\n")
@@ -400,9 +400,9 @@ class calcCond:
         # Remaining columns are the contribution of different molecule types
         outfile = open("J.dat", "w")
         for i in range(len(J[0])):
-            outfile.write("{}\t{}".format(tsjump * dt * i, J[0][i]))
+            outfile.write(f"{tsjump * dt * i}\t{J[0][i]}")
             for k in range(1, len(J)):
-                outfile.write("\t{}".format(J[k][i]))
+                outfile.write(f"\t{J[k][i]}")
             outfile.write("\n")
 
     def correlate(self, a, b):

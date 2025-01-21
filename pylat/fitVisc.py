@@ -74,9 +74,9 @@ class fitVisc:
             from matplotlib import rcParams
 
             rcParams.update({"font.size": 14})
-            print("Viscosity estimate is {}".format(Value))
-            print("A={}, alpha={}, tau1={}, tau2={}".format(popt2[0], popt2[1], popt2[2], popt2[3]))
-            print("Time cutoff is {}".format(time[cut - 1]))
+            print(f"Viscosity estimate is {Value}")
+            print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
+            print(f"Time cutoff is {time[cut - 1]}")
             plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
             plt.plot(timep[: len(visc)], visc, label="Viscosity")
             plt.plot(timep[: len(fit)], fit, label="Double Exponential fit")
@@ -87,7 +87,7 @@ class fitVisc:
             plt.xlabel("Time (ns)")
             plt.legend()
             if isinstance(plot, str):
-                plt.savefig("{}/viscosity_{}.png".format(plot, i + 1))
+                plt.savefig(f"{plot}/viscosity_{i + 1}.png")
             else:
                 plt.show()
             plt.close()

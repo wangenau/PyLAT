@@ -66,7 +66,7 @@ class calcVisc:
         for i in range(len(visco)):
             viscosity[0][i] += visco[i]
         if ver >= 1:
-            sys.stdout.write("Viscosity Trajectory 1 of {} complete".format(numtrj))
+            sys.stdout.write(f"Viscosity Trajectory 1 of {numtrj} complete")
 
         for i in range(2, numtrj + 1):
             if folders is None:
@@ -80,7 +80,7 @@ class calcVisc:
             for j in range(trjlen):
                 viscosity[i - 1][j] += visco[j]
             if ver >= 1:
-                sys.stdout.write("\rViscosity Trajectory {} of {} complete".format(i, numtrj))
+                sys.stdout.write(f"\rViscosity Trajectory {i} of {numtrj} complete")
         if ver >= 1:
             sys.stdout.write("\n")
 
@@ -91,7 +91,7 @@ class calcVisc:
         for i in range(numboot):
             Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i))
             if ver > 1:
-                sys.stdout.write("\rViscosity Bootstrap {} of {} complete".format(i + 1, numboot))
+                sys.stdout.write(f"\rViscosity Bootstrap {i + 1} of {numboot} complete")
         if ver > 1:
             sys.stdout.write("\n")
 

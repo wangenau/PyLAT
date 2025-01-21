@@ -364,11 +364,11 @@ class distSearch:
                         numFound += 1
                         molid[i].sort()
                         molid[indid[j]].sort()
-                        print("Sample {} Found".format(numFound))
-                        output["Distance_Search"]["Sample_{}".format(numFound)] = {}
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["Distance"] = float(r[j])
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["Frame"] = int(frame)
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["Molecule_1_IDs"] = molid[i]
-                        output["Distance_Search"]["Sample_{}".format(numFound)]["molecule_2_IDs"] = molid[indid[j]]
+                        print(f"Sample {numFound} Found")
+                        output["Distance_Search"][f"Sample_{numFound}"] = {}
+                        output["Distance_Search"][f"Sample_{numFound}"]["Distance"] = float(r[j])
+                        output["Distance_Search"][f"Sample_{numFound}"]["Frame"] = int(frame)
+                        output["Distance_Search"][f"Sample_{numFound}"]["Molecule_1_IDs"] = molid[i]
+                        output["Distance_Search"][f"Sample_{numFound}"]["molecule_2_IDs"] = molid[indid[j]]
 
         return (numFound, output)

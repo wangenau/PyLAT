@@ -10,6 +10,7 @@ readme = "README.md"
 license = {file = "LICENSE"}
 authors = [{name = "MaginnGroup", email = "ed@nd.edu"}]
 dependencies = ["matplotlib", "numba", "numpy>=1.14.1", "scipy>=1.0.0"]
+requires-python = ">=3.6"
 
 [tool.setuptools.packages.find]
 exclude = ["examples*"]
