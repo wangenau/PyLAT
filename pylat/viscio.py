@@ -23,14 +23,6 @@ import numpy as np
 from scipy.integrate import cumulative_trapezoid
 
 
-def _list2float(seq):
-    for x in seq:
-        try:
-            yield float(x)
-        except ValueError:
-            yield x
-
-
 def autocorrelate(a):
     b = np.concatenate((a, np.zeros(len(a))), axis=0)
     c = np.fft.ifft(np.fft.fft(b) * np.conjugate(np.fft.fft(b))).real
@@ -100,18 +92,26 @@ class LammpsLog:
                 if format:
                     data_format = format.group().split()[2:]
 
-                if all(isinstance(x, float) for x in list(_list2float(line.split()))) and md == 1 and len(line) >= 3:
-                    break
+                if md == 1 and len(line) >= 3:
+                    try:
+                        np.float64(line.split())
+                    except ValueError:
+                        pass
+                    else:
+                        break
 
                 header += 1
 
             # note: we are starting from the "break" above
             raw_data = []
             for line in logfile:
-                if all(isinstance(x, float) for x in list(_list2float(line.split()))) and len(line) >= 3:
-                    raw_data.append(line.split())
-                else:
-                    break
+                if len(line) >= 3:
+                    try:
+                        np.float64(line.split())
+                    except ValueError:
+                        break
+                    else:
+                        raw_data.append(line.split())
                 # if line == '\n':
                 # footer_blank_line += 1
             # print(int(md_step/log_save_freq))

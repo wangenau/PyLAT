@@ -63,8 +63,7 @@ class calcVisc:
         (Time, visco) = Log.viscosity(numskip)
         trjlen = len(Time)
         viscosity = np.zeros((numtrj, trjlen))
-        for i in range(len(visco)):
-            viscosity[0][i] += visco[i]
+        viscosity[0][: len(visco)] += visco[: len(visco)]
         if ver >= 1:
             sys.stdout.write(f"Viscosity Trajectory 1 of {numtrj} complete")
 
@@ -77,8 +76,7 @@ class calcVisc:
             (Time, visco) = Log.viscosity(numskip)
             if len(visco) < trjlen:
                 trjlen = len(visco)
-            for j in range(trjlen):
-                viscosity[i - 1][j] += visco[j]
+            viscosity[i - 1][:trjlen] += visco[:trjlen]
             if ver >= 1:
                 sys.stdout.write(f"\rViscosity Trajectory {i} of {numtrj} complete")
         if ver >= 1:
@@ -113,11 +111,7 @@ class calcVisc:
         Bootlist = np.zeros((numsamples, trjlen))
         for j in range(numsamples):
             rint = random.randint(0, numtrj - 1)
-            for k in range(trjlen):
-                Bootlist[j][k] = viscosity[rint][k]
-        average = np.zeros(trjlen)
-        stddev = np.zeros(trjlen)
-        for j in range(trjlen):
-            average[j] = np.average(Bootlist.transpose()[j])
-            stddev[j] = np.std(Bootlist.transpose()[j])
+            Bootlist[j, :] = viscosity[rint, :]
+        average = np.average(Bootlist, axis=0)
+        stddev = np.std(Bootlist, axis=0)
         return fv.fitvisc(Time, average, stddev, plot, popt2, i)

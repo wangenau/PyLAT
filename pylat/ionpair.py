@@ -91,9 +91,7 @@ class ionpair:
                     (IPL, r2) = self.curvefit(y, time, begin, end)
                     output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]}"] = IPL
                     output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]} r2"] = r2
-                    output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]} correlation"] = (
-                        copy.deepcopy(y)
-                    )
+                    output["Ion_Pair_Lifetime"][f"{moltypel[j]} around {moltypel[i]} correlation"] = copy.deepcopy(y)
         output["Ion_Pair_Lifetime"]["Correlation_Time"] = copy.deepcopy(time)
 
     def init(self, nummol, moltypel, numtimesteps, moltype):

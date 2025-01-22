@@ -13,9 +13,7 @@ for num in filelist:
     output = open(f"test_{num}/in.visc", "w")
     for line in range(len(samplefile)):
         if line == 31:
-            output.write(
-                f"velocity        all create  ${{mytemp}} {random.randint(1, 999999999)} units box \n"
-            )
+            output.write(f"velocity        all create  ${{mytemp}} {random.randint(1, 999999999)} units box \n")
         else:
             output.write(samplefile[line])
     output.close()

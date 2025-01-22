@@ -52,9 +52,7 @@ class getcoordinationnumber:
             (minima, index) = self.findfirst3minima(g, r)
             output["Coordination_Number"][f"{mol1} around {mol2}"] = {}
             integral = self.integrate(g, r, nummoltype, moltypel, V, mol1)
-            output["Coordination_Number"][f"{mol1} around {mol2}"]["Cumulative_Integral"] = copy.deepcopy(
-                integral
-            )
+            output["Coordination_Number"][f"{mol1} around {mol2}"]["Cumulative_Integral"] = copy.deepcopy(integral)
             output["Coordination_Number"][f"{mol1} around {mol2}"]["Minima"] = minima
             coord = []
             for j in range(len(minima)):
@@ -63,9 +61,7 @@ class getcoordinationnumber:
             if mol2 != mol1:
                 output["Coordination_Number"][f"{mol2} around {mol1}"] = {}
                 integral = self.integrate(g, r, nummoltype, moltypel, V, mol2)
-                output["Coordination_Number"][f"{mol2} around {mol1}"]["Cumulative_Integral"] = (
-                    copy.deepcopy(integral)
-                )
+                output["Coordination_Number"][f"{mol2} around {mol1}"]["Cumulative_Integral"] = copy.deepcopy(integral)
                 output["Coordination_Number"][f"{mol2} around {mol1}"]["Minima"] = minima
                 coord = []
                 for j in range(len(minima)):
