@@ -78,7 +78,7 @@ class distSearch:
                     idcol,
                 )
                 if count == 0:
-                    (nummol, comx, comy, comz, molmass) = self.comprep(mol, n, atype, atommass, num_timesteps)
+                    (nummol, comx, comy, comz, molmass) = self.comprep(mol, n, atype, atommass)
                     molid = self.molID(mol, aid, moltype)
                 (comx, comy, comz, count) = self.calccom(
                     comx,
@@ -260,7 +260,7 @@ class distSearch:
         line[i] += n + 9
         return (x, y, z, mol, atype, line, aid)
 
-    def comprep(self, mol, n, atype, atommass, num_timesteps):
+    def comprep(self, mol, n, atype, atommass):
         # creates arrays to prepare for center of mass calculations
         nummol = int(max(mol))
         comx = [0 for x in range(nummol)]

@@ -23,7 +23,7 @@ import numpy as np
 class COMradialdistribution:
     def runradial(
         self,
-        datfilename,
+        datfilename,  # Does nothing
         comx,
         comy,
         comz,
@@ -38,7 +38,7 @@ class COMradialdistribution:
         moltypel,
         moltype,
         timesteps,
-        ver,
+        ver,  # Does nothing
         maxr,
         binsize,
     ):
@@ -61,7 +61,6 @@ class COMradialdistribution:
             Lz,
             binsize,
             numbins,
-            maxr,
             count,
         )
         (radiuslist) = self.radialnormalization(numbins, binsize, Lx, Ly, Lz, nummoltype, count, g, firststep)
@@ -94,7 +93,6 @@ class COMradialdistribution:
         Lz,
         binsize,
         numbins,
-        maxr,
         count,
     ):
         # calculates the number of molecules within each shell

@@ -69,7 +69,7 @@ class ionpair:
         if ver:
             sys.stdout.write("\n")
 
-        correlation = self.correlation(closest, moltype, moltypel, ver, skipframes)
+        correlation = self.correlation(closest, moltype, skipframes)
         if ver:
             print("correlation complete")
         time = []
@@ -108,7 +108,7 @@ class ionpair:
         end.append(len(moltype))
         return (closest, begin, end, C)
 
-    def correlation(self, closest, moltype, moltypel, ver, skipframes):
+    def correlation(self, closest, moltype, skipframes):
         # Runs a fortran script perfroming the correlation function
         return ipcorr(
             closest,

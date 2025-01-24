@@ -93,13 +93,13 @@ class calcVisc:
         if ver > 1:
             sys.stdout.write("\n")
 
-        (ave, stddev, Values) = self.getAverage(Values, numsamples, trjlen, numtrj, viscosity, Time, fv)
+        (ave, stddev, Values) = self.getAverage(Values)
 
         output["Viscosity"]["Average Value"] = ave
         output["Viscosity"]["Standard Deviation"] = stddev
         return output
 
-    def getAverage(self, Values, numsamples, trjlen, numtrj, viscosity, Time, fv):
+    def getAverage(self, Values):
         # calculate average and standard deviation of Values array
         # Was originally implemented to perform a z-test on the values to determine outliers
         ave = np.average(Values)

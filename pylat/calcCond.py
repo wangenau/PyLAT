@@ -43,7 +43,7 @@ class calcCond:
         moltype,
         moltypel,
         ver,
-        firstpoint,
+        firstpoint,  # Does nothing
         tol,
         Jout,
     ):
@@ -59,7 +59,7 @@ class calcCond:
         (num_lines, n, num_timesteps, count, line) = self.getnum(trjfilename)
         atommass = self.getmass(datfilename)
         V = self.getdimensions(trjfilename[0])
-        (vx, vy, vz, mol, atype) = self.createarrays(n, num_timesteps, moltype)
+        (vx, vy, vz, mol, atype) = self.createarrays(n)
         (vxcol, vycol, vzcol, idcol, molcol, typecol) = self.getcolumns(trjfilename[0])
         dotlist = self.getchargearrays(molcharges, moltype)
         if ver >= 1:
@@ -109,7 +109,7 @@ class calcCond:
             sys.stdout.write("\n")
         if ver >= 2:
             print("begining GK conductivity correlation")
-        J = self.clacJ(jx, jy, jz, dt, tsjump, firstpoint, ver)
+        J = self.calcJ(jx, jy, jz, ver)
         if Jout:
             self.writeJ(J, tsjump, dt)
         integral = self.integrateJ(J, tsjump * dt)
@@ -119,7 +119,7 @@ class calcCond:
             time.append(i * tsjump * dt)
         cond = np.zeros(len(J))
         for i in range(len(J)):
-            ave = self.fitcurve(time, integral[i], begcon, endcon)
+            ave = self.fitcurve(integral[i], begcon, endcon)
             cond[i] = self.greenkubo(ave, T, V)
         GKintegral = self.greenkubo(integral, T, V)
         fit = []
@@ -173,7 +173,7 @@ class calcCond:
         count = 0
         return (num_lines, n, num_timesteps, count, line)
 
-    def createarrays(self, n, num_timesteps, moltype):
+    def createarrays(self, n):
         # creates numpy arrays for data reading
         vx = np.zeros(n)
         vy = np.zeros(n)
@@ -244,7 +244,7 @@ class calcCond:
         count += 1
         return (jx, jy, jz, count)
 
-    def clacJ(self, jx, jy, jz, dt, tsjump, firstpoint, ver):
+    def calcJ(self, jx, jy, jz, ver):
         # Calculates the charge flux correlation function for all timesteps
         # J[0] is the total charge correlation function
         # J[m] is the charge correlation function for the mth species
@@ -275,7 +275,7 @@ class calcCond:
             integral[i][1:] = cumulative_trapezoid(J[i], dx=dt)
         return integral
 
-    def fitcurve(self, time, integral, begin, end):
+    def fitcurve(self, integral, begin, end):
         # calculates average value of the integral over the range begin:end
         return np.average(integral[begin:end])
 
