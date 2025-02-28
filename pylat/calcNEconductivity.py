@@ -22,7 +22,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 class calcNEconductivity:
     def calcNEconductivity(self, output, molcharge, Lx, Ly, Lz, nummoltype, moltypel, T):
-        """This function uses the Nernst-Einstien equation to estimate the ionic
+        """This function uses the Nernst-Einstein equation to estimate the ionic
         conductivity of the system from the diffusivities
 
         """
@@ -36,7 +36,7 @@ class calcNEconductivity:
                 try:
                     D = float(output["Diffusivity"][moltypel[i]])
                 except ValueError:
-                    output["Nernst Einstien Conductivity in S/m"] = "runtime not long enough"
+                    output["Nernst Einstein Conductivity in S/m"] = "runtime not long enough"
                     return output
                 N = int(nummoltype[i])
                 NEcond += N * q**2 * D

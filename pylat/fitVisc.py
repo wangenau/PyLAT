@@ -27,7 +27,7 @@ from scipy import optimize
 
 class fitVisc:
     def fitvisc(self, time, visc, stddev, plot, popt2, i):
-        # Makre sure our time scale starts at zero for the fit
+        # Make sure our time scale starts at zero for the fit
         time = time - 2 * time[0] + time[1]
 
         foundcutoff = False
@@ -49,6 +49,7 @@ class fitVisc:
             stddev = None
         else:
             stddev = stddev[start:cut]
+
         popt2, pcov2 = optimize.curve_fit(
             doubexp,
             time[start:cut],

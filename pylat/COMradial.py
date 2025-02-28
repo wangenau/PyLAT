@@ -70,6 +70,8 @@ class COMradialdistribution:
     def setgparam(self, Lx2, Ly2, Lz2, timesteps, moltypel, maxr, binsize, numsteps):
         # uses side lengths to set the maximum radius for box and number of bins
         # also sets the first line using data on firststep and number of atoms
+        if timesteps is None:
+            timesteps = numsteps
         firststep = numsteps - timesteps
         if maxr is None:
             maxr = min(Lx2, Ly2, Lz2)
