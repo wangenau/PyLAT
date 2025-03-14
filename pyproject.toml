@@ -1,22 +1,28 @@
 [build-system]
-requires = ["setuptools"]
+requires = ["setuptools>=64"]
 build-backend = "setuptools.build_meta"
 
-[project]
-name = "pylat"
-version = "0.2.0"
-description = "Python LAMMPS Analysis Tools."
-readme = "README.md"
-license = {file = "LICENSE"}
-authors = [{name = "MaginnGroup", email = "ed@nd.edu"}]
-dependencies = ["matplotlib", "numba", "numpy>=1.14.1", "scipy>=1.0.0"]
-requires-python = ">=3.6"
+[tool.setuptools]
+script-files = ["scripts/PyLAT", "scripts/PyLATplot"]
+
+[tool.setuptools.dynamic]
+version = {attr = "pylat.__init__.__version__"}
 
 [tool.setuptools.packages.find]
 exclude = ["examples*"]
 
-[tool.setuptools]
-script-files = ["scripts/PyLAT", "scripts/PyLATplot"]
+[project]
+name = "pylat"
+dynamic = ["version"]
+description = "Python LAMMPS Analysis Tools."
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "MaginnGroup", email = "ed@nd.edu"},
+    {name = "Wanja Timm Schulze", email = "wangenau@protonmail.com"},
+]
+dependencies = ["matplotlib", "numba", "numpy>=1.14.1", "scipy>=1.0.0"]
+requires-python = ">=3.6"
 
 [tool.ruff]
 line-length = 120
