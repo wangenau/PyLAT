@@ -356,9 +356,9 @@ class distSearch:
 
                 for j in range(len(r)):
                     if (
-                        (np.abs(r[j] - dist) < deltaDist)
+                        ((np.abs(r[j] - dist) < deltaDist)
                         and (numFound < numSamples)
-                        and ((mol1 == mol2) and (i < indid[j]))
+                        and ((mol1 == mol2) and (i < indid[j])))
                         or (mol1 != mol2)
                     ):
                         numFound += 1

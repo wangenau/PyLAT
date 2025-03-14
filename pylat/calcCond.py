@@ -382,7 +382,7 @@ class calcCond:
 
     def getchargearrays(self, molcharges, moltype):
         # generates an array with the charge on each molecule
-        dotlist = np.zeros((int(max(moltype) + 1), int(len(molcharges))))
+        dotlist = np.zeros((int(max(moltype) + 1), len(molcharges)))
         for i in range(len(dotlist)):
             for k in range(len(moltype)):
                 if moltype[k] == i:

@@ -88,7 +88,7 @@ class LammpsLog:
                     float(thermo.group(1))
 
                 # log format
-                format = re.search("thermo_style.+", line)
+                format = re.search(r"thermo_style.+", line)
                 if format:
                     data_format = format.group().split()[2:]
 
