@@ -16,7 +16,6 @@ name = "pylat"
 dynamic = ["version"]
 description = "Python LAMMPS Analysis Tools."
 readme = "README.md"
-license = {file = "LICENSE"}
 authors = [
     {name = "MaginnGroup", email = "ed@nd.edu"},
     {name = "Wanja Timm Schulze", email = "wangenau@protonmail.com"},
