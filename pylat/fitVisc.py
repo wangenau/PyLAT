@@ -26,7 +26,7 @@ from scipy import optimize
 
 
 class fitVisc:
-    def fitvisc(self, time, visc, stddev, plot, popt2, i):
+    def fitvisc(self, time, visc, stddev, plot, popt2, i, ver):
         # Make sure our time scale starts at zero for the fit
         time = time - 2 * time[0] + time[1]
 
@@ -75,9 +75,10 @@ class fitVisc:
             from matplotlib import rcParams
 
             rcParams.update({"font.size": 14})
-            print(f"Viscosity estimate is {Value}")
-            print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
-            print(f"Time cutoff is {time[cut - 1]}")
+            if ver > 1:
+                print(f"Viscosity estimate is {Value}")
+                print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
+                print(f"Time cutoff is {time[cut - 1]}")
             plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
             plt.plot(timep[: len(visc)], visc, label="Viscosity")
             plt.plot(timep[: len(fit)], fit, label="Double Exponential fit")

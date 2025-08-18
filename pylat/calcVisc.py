@@ -87,7 +87,7 @@ class calcVisc:
         fv = fitVisc()
         # random.seed(123456789)
         for i in range(numboot):
-            Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i))
+            Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver))
             if ver > 1:
                 sys.stdout.write(f"\rViscosity Bootstrap {i + 1} of {numboot} complete")
         if ver > 1:
@@ -106,7 +106,7 @@ class calcVisc:
         stddev = np.std(Values)
         return (ave, stddev, Values)
 
-    def Bootstrap(self, numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i):
+    def Bootstrap(self, numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver):
         # Perform calculate the viscosity of one bootstrapping sample
         Bootlist = np.zeros((numsamples, trjlen))
         for j in range(numsamples):
@@ -114,4 +114,4 @@ class calcVisc:
             Bootlist[j, :] = viscosity[rint, :]
         average = np.average(Bootlist, axis=0)
         stddev = np.std(Bootlist, axis=0)
-        return fv.fitvisc(Time, average, stddev, plot, popt2, i)
+        return fv.fitvisc(Time, average, stddev, plot, popt2, i, ver)
