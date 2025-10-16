@@ -32,7 +32,7 @@ class fitVisc:
 
         foundcutoff = False
         foundstart = False
-        start = 1
+        start = 0
         while not foundstart and start < len(visc):
             if time[start] > 2000:
                 foundstart = True
@@ -60,25 +60,21 @@ class fitVisc:
             bounds=(0, [np.inf, 1, np.inf, np.inf]),
         )
 
-        fit = []
-        fit1 = []
-        fit2 = []
-        for t in time:
-            fit.append(doubexp(t, *popt2))
-            fit1.append(doubexp1(t, *popt2))
-            fit2.append(doubexp2(t, *popt2))
+        fit = doubexp(time, *popt2)
+        fit1 = doubexp1(time, *popt2)
+        fit2 = doubexp2(time, *popt2)
         Value = popt2[0] * popt2[1] * popt2[2] + popt2[0] * (1 - popt2[1]) * popt2[3]
 
+        if ver > 1:
+            print(f"Viscosity estimate is {Value}")
+            print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
+            print(f"Time cutoff is {time[cut - 1]}")
         if plot:
             timep = time / 1000000
             from matplotlib import pyplot as plt
             from matplotlib import rcParams
 
             rcParams.update({"font.size": 14})
-            if ver > 1:
-                print(f"Viscosity estimate is {Value}")
-                print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
-                print(f"Time cutoff is {time[cut - 1]}")
             plt.ticklabel_format(axis="x", style="sci", scilimits=(0, 0))
             plt.plot(timep[: len(visc)], visc, label="Viscosity")
             plt.plot(timep[: len(fit)], fit, label="Double Exponential fit")
