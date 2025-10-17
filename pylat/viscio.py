@@ -17,17 +17,17 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
 import re
-from multiprocessing import Pool
 
 import numpy as np
 from scipy.integrate import cumulative_trapezoid
+from scipy.fft import ifft, fft
 
 
 def autocorrelate(a):
-    b = np.concatenate((a, np.zeros(len(a))), axis=0)
-    c = np.fft.ifft(np.fft.fft(b) * np.conjugate(np.fft.fft(b))).real
+    b = np.concatenate((a, np.zeros_like(a)), axis=0)
+    c = ifft(fft(b) * fft(b).conj()).real
     d = c[: int(len(c) / 2)]
-    return d / (np.array(range(len(a))) + 1)[::-1]
+    return d / (np.arange(1, len(a) + 1))[::-1]
 
 
 class LammpsLog:
@@ -137,9 +137,6 @@ class LammpsLog:
         output: returns arrays for the time and the integration which is
                 the viscosity in cP
         """
-        NCORES = 1
-        p = Pool(NCORES)
-
         numtimesteps = len(self.llog["pxy"])
         calcsteps = np.floor((numtimesteps - cutoff) / 10000) * 10000
         cutoff = int(numtimesteps - calcsteps)
@@ -150,7 +147,7 @@ class LammpsLog:
         a5 = self.llog["pyy"][cutoff:] - self.llog["pzz"][cutoff:]
         a6 = self.llog["pxx"][cutoff:] - self.llog["pzz"][cutoff:]
         array_array = [a1, a2, a3, a4, a5, a6]
-        pv = p.map(autocorrelate, array_array)
+        pv = [autocorrelate(a) for a in array_array]
         pcorr = (pv[0] + pv[1] + pv[2]) / 6 + (pv[3] + pv[4] + pv[5]) / 24
 
         temp = np.mean(self.llog["temp"][cutoff:])
@@ -166,7 +163,6 @@ class LammpsLog:
             / (1.38 * 10**-23 * temp)
         )
         Time = np.array(self.llog["step"][: len(pcorr) - 1]) * self.llog["timestep"]
-        p.close()
         return (Time, visco)
 
     @property
