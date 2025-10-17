@@ -26,7 +26,7 @@ from scipy import optimize
 
 
 class fitVisc:
-    def fitvisc(self, time, visc, stddev, plot, popt2, i, ver):
+    def fitvisc(self, time, visc, stddev, plot, popt2, i, ver, average=False):
         # Make sure our time scale starts at zero for the fit
         time = time - 2 * time[0] + time[1]
 
@@ -38,7 +38,7 @@ class fitVisc:
                 foundstart = True
             else:
                 start += 1
-        cut = 1
+        cut = start
         while not foundcutoff and cut < len(visc):
             if stddev[cut] > 0.4 * visc[cut]:
                 foundcutoff = True
@@ -65,6 +65,20 @@ class fitVisc:
         fit2 = doubexp2(time, *popt2)
         Value = popt2[0] * popt2[1] * popt2[2] + popt2[0] * (1 - popt2[1]) * popt2[3]
 
+        Error = 0
+        if average:
+            # Calculate error via error propagation
+            DValue = [
+                popt2[1] * popt2[2] + (1 - popt2[1]) * popt2[3],
+                popt2[0] * popt2[2] - popt2[0] * popt2[3],
+                popt2[0] * popt2[1],
+                popt2[0] * (1 - popt2[1]),
+            ]
+            # Assume independent variables
+            for x in range(4):
+                Error += DValue[x] ** 2 * pcov2[x, x]
+            Error = np.sqrt(Error)
+
         if ver > 1:
             print(f"Viscosity estimate is {Value}")
             print(f"A={popt2[0]}, alpha={popt2[1]}, tau1={popt2[2]}, tau2={popt2[3]}")
@@ -85,11 +99,11 @@ class fitVisc:
             plt.xlabel("Time (ns)")
             plt.legend()
             if isinstance(plot, str):
-                plt.savefig(f"{plot}/viscosity_{i + 1}.png")
+                plt.savefig(f"{plot}/viscosity_{i}.png")
             else:
                 plt.show()
             plt.close()
-        return Value
+        return Value, Error
 
 
 @njit

@@ -82,18 +82,22 @@ class calcVisc:
         if ver >= 1:
             sys.stdout.write("\n")
 
-        # Begin Bootstrapping for error estimate
-        Values = []
         fv = fitVisc()
-        # random.seed(123456789)
-        for i in range(numboot):
-            Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver))
+        if numsamples == 0 or numboot == 0:
+            average = np.average(viscosity, axis=0)
+            stddev = np.std(viscosity, axis=0)
+            ave, stddev = fv.fitvisc(Time, average, stddev, plot, popt2, "avg", ver, average=True)
+        else:
+            # Begin Bootstrapping for error estimate
+            Values = []
+            # random.seed(123456789)
+            for i in range(numboot):
+                Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver))
+                if ver > 1:
+                    sys.stdout.write(f"\rViscosity Bootstrap {i + 1} of {numboot} complete")
             if ver > 1:
-                sys.stdout.write(f"\rViscosity Bootstrap {i + 1} of {numboot} complete")
-        if ver > 1:
-            sys.stdout.write("\n")
-
-        (ave, stddev, Values) = self.getAverage(Values)
+                sys.stdout.write("\n")
+            (ave, stddev, Values) = self.getAverage(Values)
 
         output["Viscosity"]["Average Value"] = ave
         output["Viscosity"]["Standard Deviation"] = stddev
@@ -114,4 +118,4 @@ class calcVisc:
             Bootlist[j, :] = viscosity[rint, :]
         average = np.average(Bootlist, axis=0)
         stddev = np.std(Bootlist, axis=0)
-        return fv.fitvisc(Time, average, stddev, plot, popt2, i, ver)
+        return fv.fitvisc(Time, average, stddev, plot, popt2, i, ver)[0]
