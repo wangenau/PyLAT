@@ -30,6 +30,7 @@ class calcNEconductivity:
         """
 
         output["Conductivity"] = {}
+        output["Conductivity"]["units"] = "S/m"
         V = Lx * Ly * Lz * 10**-30
         e = 1.60217657e-19
         k = 1.3806488e-23
@@ -39,12 +40,16 @@ class calcNEconductivity:
             assert abs(Lx - Lz) < 1e-6
             corr = k * T * xi / (math.pi * 6 * nu * 1e-3 * Lx * 1e-10)
             output["Diffusivity Corrected"] = {}
+            output["Diffusivity Corrected"]["units"] = "m^2/s"
             output["Diffusivity Corrected"]["Yeh_Hummer_Correction"] = corr
             output["Conductivity Corrected"] = {}
+            output["Conductivity Corrected"]["units"] = "S/m"
 
         NEcond = 0
         NEcond_corr = 0
+        NEcond_err = 0
         for i in range(len(moltypel)):
+            D_err = 0
             q = float(molcharge[moltypel[i]])
             if q != 0:
                 try:
@@ -55,9 +60,18 @@ class calcNEconductivity:
                 except ValueError:
                     output["Nernst Einstein Conductivity in S/m"] = "runtime not long enough"
                     return output
+                try:
+                    D_err = float(output["Diffusivity"][f"{moltypel[i]} Deviation"])
+                except KeyError:
+                    pass
                 N = int(nummoltype[i])
                 NEcond += N * q**2 * D
                 output["Conductivity"][f"Nernst_Einstein_{moltypel[i]}"] = N * q**2 * D * e**2 / k / T / V
+                if D_err != 0:
+                    NEerr = D_err**2 * (N * q**2 * e**2 / k / T / V) ** 2  # via error propagation
+                    output["Conductivity"][f"Nernst_Einstein_{moltypel[i]} Deviation"] = math.sqrt(NEerr)
+                    NEcond_err += NEerr
+
                 if nu is not None:
                     NEcond_corr += N * q**2 * D_corr
                     output["Conductivity Corrected"][f"Nernst_Einstein_{moltypel[i]}"] = (
@@ -65,6 +79,7 @@ class calcNEconductivity:
                     )
         NEcond *= e**2 / k / T / V
         output["Conductivity"]["Nernst_Einstein"] = NEcond
+        output["Conductivity"]["Nernst_Einstein Deviation"] = math.sqrt(NEcond_err)
         if nu is not None:
             NEcond_corr *= e**2 / k / T / V
             output["Conductivity Corrected"]["Nernst_Einstein"] = NEcond_corr
