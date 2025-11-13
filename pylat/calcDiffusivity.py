@@ -74,7 +74,7 @@ class calcdiffusivity:
                 t1 = int(maxtime - 1 - (numskip - 1) * timestepskip)
                 t2 = int(maxtime - 1 - numskip * timestepskip)
                 slope = (lnMSD[t1] - lnMSD[t2]) / (lntime[t1] - lntime[t2])
-                if abs(slope - 1.0) < tol:
+                if abs(slope - 1) < tol:
                     numskip += 1
                 else:
                     return t1

@@ -44,7 +44,7 @@ class calcDielectricConstant:
                 (Mx[count], My[count], Mz[count]) = calcdipolemoment(x, y, z, atomcharges)
                 count += 1
                 if ver > 1:
-                    sys.stdout.write(f"\rdipole moment calculation {count * 100.0 / num_timesteps:.2f}% complete")
+                    sys.stdout.write(f"\rdipole moment calculation {count * 100 / num_timesteps:.2f}% complete")
         if ver > 1:
             sys.stdout.write("\n")
         if ver >= 1:
@@ -164,7 +164,7 @@ class calcDielectricConstant:
         AveM2 *= 1e-20 * 1.6022e-19**2  # correct units
         AveM *= 1e-20 * 1.6022e-19**2
         V *= 1e-30
-        return (1 + 1 / 3.0 / epsilon0 / V / kb / T * (AveM2 - AveM)).tolist()
+        return (1 + 1 / 3 / epsilon0 / V / kb / T * (AveM2 - AveM)).tolist()
 
 
 @njit

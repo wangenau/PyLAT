@@ -15,7 +15,7 @@ def calccom(n, nummol, x, y, z, mol, amass, molmass, Lx, Ly, Lz, Lx2, Ly2, Lz2):
     uz = np.zeros(n)
     for i in range(n):
         mol_i = int(mol[i] - 1)
-        if xt[mol_i] == 0.0:
+        if xt[mol_i] == 0:
             xt[mol_i] = x[i]
             yt[mol_i] = y[i]
             zt[mol_i] = z[i]

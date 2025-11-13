@@ -157,7 +157,7 @@ class LammpsLog:
             * self.llog["timestep"]
             * 10**-15
             * 1000
-            * 101325.0**2
+            * 101325**2
             * self.llog["vol"][-1]
             * 10**-30
             / (1.38 * 10**-23 * temp)

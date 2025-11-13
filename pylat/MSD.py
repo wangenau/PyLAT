@@ -63,7 +63,7 @@ class MSD:
         for i in range(skip, num_init + skip):
             MSD = calcMSD(comx, comy, comz, i, len_MSD, MSD, molcheck)
             if ver:
-                sys.stdout.write(f"\rMSD calculation {(i + 1 - skip) * 100.0 / num_init:.2f}% complete")
+                sys.stdout.write(f"\rMSD calculation {(i + 1 - skip) * 100 / num_init:.2f}% complete")
         if ver:
             sys.stdout.write("\n")
         MSD = self.MSDnorm(MSD, num_init, nummol)

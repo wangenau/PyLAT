@@ -64,7 +64,7 @@ class ionpair:
             r = calcdistance(len(comx[step]), comx[step], comy[step], comz[step], Lx, Ly, Lz)
             closest = findclosest(r, closest, begin, end, step)
             if ver:
-                sys.stdout.write(f"\rIPL distance calculation {(step + 1) * 100.0 / len(comx):.2f}% complete")
+                sys.stdout.write(f"\rIPL distance calculation {(step + 1) * 100 / len(comx):.2f}% complete")
 
         if ver:
             sys.stdout.write("\n")
