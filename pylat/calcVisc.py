@@ -93,9 +93,9 @@ class calcVisc:
             random.seed(123456789)
             for i in range(numboot):
                 Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver))
-                if ver > 1:
+                if ver >= 1:
                     sys.stdout.write(f"\rViscosity Bootstrap {i + 1} of {numboot} complete")
-            if ver > 1:
+            if ver >= 1:
                 sys.stdout.write("\n")
             (ave, stddev, Values) = self.getAverage(Values)
 
