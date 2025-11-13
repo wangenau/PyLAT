@@ -55,7 +55,7 @@ class ionpair:
         exponentials to obtain a good fit without overfitting
         """
         output["Ion_Pair_Lifetime"] = {}
-        output["Ion_Pair_Lifetime"]["Units"] = "picoseconds"
+        output["Ion_Pair_Lifetime"]["units"] = "picoseconds"
         output["Ion_Pair_Lifetime"]["Explanation"] = (
             "The Ion Pair Lifetime correlation function is fit to a single exponential, a double exponential up to 5 exponentials. The results shown are the result of these successive fittings"
         )

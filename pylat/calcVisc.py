@@ -52,7 +52,7 @@ class calcVisc:
             numtrj = len(folders)
 
         output["Viscosity"] = {}
-        output["Viscosity"]["Units"] = "cP"
+        output["Viscosity"]["units"] = "cP"
         if dirbase is None:
             dirbase = "./"
         if folders is None:
@@ -90,7 +90,7 @@ class calcVisc:
         else:
             # Begin Bootstrapping for error estimate
             Values = []
-            # random.seed(123456789)
+            random.seed(123456789)
             for i in range(numboot):
                 Values.append(self.Bootstrap(numsamples, trjlen, numtrj, viscosity, Time, fv, plot, popt2, i, ver))
                 if ver > 1:
