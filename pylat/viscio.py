@@ -19,8 +19,8 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import re
 
 import numpy as np
+from scipy.fft import fft, ifft
 from scipy.integrate import cumulative_trapezoid
-from scipy.fft import ifft, fft
 
 
 def autocorrelate(a):
