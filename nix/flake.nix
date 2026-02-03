@@ -31,6 +31,7 @@
           shellHook = ''
             pip install -e . --prefix "$TMPDIR"
             export PYTHONPATH="$(pwd):$PYTHONPATH"
+            export PATH="$TMPDIR/bin:$PATH"
             export MPLBACKEND="TKAgg"
           '';
         };
